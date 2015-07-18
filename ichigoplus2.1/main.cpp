@@ -15,6 +15,8 @@
 //circuit
 class three{
     public:
+		float a[10]{250,0,-250,0,250,250,-250,-250,0};//x
+		float b[10]{250,500,250,0,0,500,500,0,0};//y
 		int sw=0;
         int time=0;
         float pwmp[3]={1,1,1};
@@ -69,8 +71,6 @@ class three{
         float mokuy=0;
         float tmp1=0;
         float deg=0;
-        float a=0;
-		float b=0;
 		int c=0;
 		float up=0;
 		float dg=1.0/1000.0;
@@ -155,43 +155,12 @@ void three::switch0(){
 }
 
 void three::xy(){
-
-	if(k==0){
-		a=250;
-		b=250;
-	}
-	mokux=a-integralx;
-	mokuy=b-integraly;
+	mokux=a[k]-integralx;
+	mokuy=b[k]-integraly;
 	distance=hypotf(mokuy,mokux);
-	if(distance<=0.5){
+	if(distance<=8&&k!=10){
 		k++;
 	}
-	if(k==1){
-		a=0;
-		b=500;
-	}
-
-	if(k==2){
-		a=-250;
-		b=250;
-	}
-
-	if(k==3){
-		a=0;
-		b=0;
-	}
-	if(k==4){
-		a=250;
-		b=500;
-	}
-	if(k==5){
-		a=-250;
-		b=500;
-	}
-	/*
-	a=0;
-	b=2000;
-	*/
 	return;
 }
 
@@ -254,17 +223,19 @@ void three::jkit1(){
 	integralx+=x*cos(rad)-y*sin(rad);
 	integraly+=y*cos(rad)+x*sin(rad);
 
-	mokux=a-integralx;
-	mokuy=b-integraly;
+	mokux=a[k]-integralx;
+	mokuy=b[k]-integraly;
+
 	odis=distance;
 	distance=hypotf(mokuy,mokux);
 
-	dsm+=(distance-odis)*0.000001;
+	dsm+=(distance-odis)*0.00001;
+
 	return;
 }
 
 void three::degmota(){
-	deg=atan2(mokuy,mokux);
+	deg=atan2f(mokuy,mokux);
 	pwmp[1]=-1*sin(deg-30*M_PI/180);
 	pwmp[0]=-1*cos(deg);
 	pwmp[2]=sin(30*M_PI/180+deg);
@@ -293,7 +264,7 @@ void three::degreerock(){
 		pwmrock[i]=pwmrock[i]/fabsf(tmp);
 	}
 	for(i=0;i<=2;i++){
-		pwmrock[i]=pwmrock[i]/6.0;
+		pwmrock[i]=pwmrock[i]/5.0;
 	}
 	od=degree;
 	return;
@@ -312,11 +283,9 @@ void  three::final(){
 			tmp1=fabsf(pwmp[i]);
 		}
 	}
-
 	for(i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp1);
 	}
-
 	cw0.digitalWrite(0);
 	ccw0.digitalWrite(1);
 	cw1.digitalWrite(0);
@@ -327,32 +296,45 @@ void  three::final(){
 	for(i=0;i<=2;i++){
 		if(pwmp[i]<0){
 			if(i==0){
-				pwmp[i]=pwmp[i]*-1;
 				cw0.digitalWrite(1);
 				ccw0.digitalWrite(0);
+				pwmp[i]=pwmp[i]*-1;
 			}
 			if(i==1){
-				pwmp[i]=pwmp[i]*-1;
 				cw1.digitalWrite(1);
 				ccw1.digitalWrite(0);
+				pwmp[i]=pwmp[i]*-1;
 			}
 			if(i==2){
-				pwmp[i]=pwmp[i]*-1;
 				cw2.digitalWrite(1);
 				ccw2.digitalWrite(0);
+				pwmp[i]=pwmp[i]*-1;
 			}
 		}
 	}
-
-
-
+/*
 	for(i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]+dsm;
 	}
+*/
 
+
+	tmp1=fabsf(pwmp[0]);
+
+	for(i=1;i<=2;i++){
+		if(tmp1<fabsf(pwmp[i])){
+			tmp1=fabsf(pwmp[i]);
+		}
+	}
 
 	for(i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]*(distance/100.0);
+		pwmp[i]=pwmp[i]/fabsf(tmp1);
+	}
+
+	if(distance<=10){
+		for(i=0;i<=2;i++){
+				pwmp[i]=pwmp[i]*(distance/10.0);
+			}
 	}
 
 	tmp1=fabsf(pwmp[0]);
@@ -374,6 +356,7 @@ void  three::final(){
 	pwm0.pwmWrite(pwmp[0]);
 	pwm1.pwmWrite(pwmp[1]);
 	pwm2.pwmWrite(pwmp[2]);
+	wait(10);
 	return;
 
 }
@@ -415,9 +398,9 @@ int main(){
 		t.switch0();
 	}
 	else if(t.sw==1){
+	t.jkit1();
 	t.xy();
 	t.degree1();
-	t.jkit1();
 	t.degmota();
 	t.degreerock();
 	t.final();
