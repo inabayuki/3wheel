@@ -13,30 +13,26 @@
 #include "pin.hpp"
 
 //circuit
-class three{
+class Three{
     public:
-    	float l=90;//enc distance from the center
-		float a[10]{250,0,-250,0,250,-250,250,-250,0,0};//x
-		float b[10]{250,500,250,0,0,500,500,0,0};//y
+		float xPurpose[10]{250,0,-250,0,250,-250,250,-250,0,0};//x
+		float yPurpose[10]{250,500,250,0,0,500,500,0,0};//y
 		float pwmp[3]={1,1,1};
 		float oed[3]={0,0,0};
-		float pwmrock[3]={0,0,0};
+		float pwmLock[3]={0,0,0};
 		float ned[3]={0,0,0};
 		float encDistance[3]={0,0,0};
 		float encf[3]{0,0,0};
         float rad=0;
         float degree=0;
-        float od=0;
+        float degreeOld=0;
         float deg=0;
-        float ds=0;
-        float p=1.0/180.0;		//p gain
-        float d=0.6;			//d gain
+        float dControl=0;
         float oldEnc0=0;
         float oldEnc1=0;
         float oldEnc2=0;
         float integralx=0;
         float integraly=0;
-        float Distance=0;
         float distance=0;
         float odis=0;
         float mokux=0;
@@ -45,18 +41,21 @@ class three{
         float tmp1=0;
         float x=0;
         float y=0;
-		float x1=0;
-		float x2=0;
-		float x3=0;
-		float y1=0;
-		float y2=0;
-		float y3=0;
+		float firstX=0;
+		float secondX=0;
+		float thirdX=0;
+		float firstY=0;
+		float secondY=0;
+		float thirdY=0;
 		int sw=0;
         int time=0;
 		int divide=0;
 		int k=0;
-		int c=0;
-		int i=0;
+
+		#define l 90//enc distance from the center
+    	#define pGain 1.0/180.0	//p gain
+		#define dGain 0.6		//d gain
+		#define	diameter 40
 
         Serial0 serial;
         CCW0 ccw0;
@@ -73,19 +72,20 @@ class three{
         Enc2 enc2;
         Sw0 sw0;
         Sw1 sw1;
-        three();
+
+        Three();
         void degree1();
-        void jkit();
-        void degreerock();
+        void selfPosition();
+        void degreeLock();
         void test();
         void xy();
-        void degmotor();
+        void motorControl();
         void final();
         void indication();
         void switch0();
 };
 
-three::three(){
+Three::Three(){
 	ccw0.setupDigitalOut();
 	ccw1.setupDigitalOut();
 	ccw2.setupDigitalOut();
@@ -106,10 +106,10 @@ three::three(){
 //	sw1.setupDigitalIn();
 }
 
-void three::switch0(){
+void Three::switch0(){
 	if(sw0.digitalRead()==0&&sw==0){
 		sw=1;
-		c=millis();
+		time=millis();
 		return;
 	}
 	else if(sw0.digitalRead()==0&&sw==1){
@@ -126,27 +126,27 @@ void three::switch0(){
 		return;
 	}
 }
-void three::xy(){
+void Three::xy(){
 	if(distance<=1.0&&k!=9){
 		k++;
 	}
 	return;
 }
 
-void three::degree1(){
+void Three::degree1(){
 	encf[0]=enc0.count();
 	encf[1]=enc1.count();
 	encf[2]=enc2.count();
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		oed[i]=encDistance[i];
 	}
 
-	for(i=0;i<=2;i++){
-		encDistance[i]=40*M_PI*encf[i]/200.0;
+	for(int i=0;i<=2;i++){
+		encDistance[i]=diameter*M_PI*encf[i]/200.0;
 	}
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		ned[i]=encDistance[i]-oed[i];
 	}
 
@@ -172,29 +172,29 @@ void three::degree1(){
 	return;
 }
 
-void three::jkit(){
-	y1=((ned[1]+ned[2])/(2*cos(30*M_PI/180)))-ned[1]/cos(30*M_PI/180);
-	y2=-tan(30*M_PI/180)*ned[0]-(ned[1]/cos(30*M_PI/180));
-	y3=tan(30*M_PI/180)*ned[0]+(ned[2]/cos(30*M_PI/180));
+void Three::selfPosition(){
+	firstY=((ned[1]+ned[2])/(2*cos(30*M_PI/180)))-ned[1]/cos(30*M_PI/180);
+	secondY=-tan(30*M_PI/180)*ned[0]-(ned[1]/cos(30*M_PI/180));
+	thirdY=tan(30*M_PI/180)*ned[0]+(ned[2]/cos(30*M_PI/180));
 
-	x1=(ned[1]+ned[2])/(2*cos(30*M_PI/180)*tan(30*M_PI/180));
-	x2=-ned[0];
-	x3=-ned[0];
+	firstX=(ned[1]+ned[2])/(2*cos(30*M_PI/180)*tan(30*M_PI/180));
+	secondX=-ned[0];
+	thirdX=-ned[0];
 
-	x=(x1+x2+x3)/3.0;
-	y=(y1+y2+y3)/3.0;
+	x=(firstX+secondX+thirdX)/3.0;
+	y=(firstY+secondY+thirdY)/3.0;
 
 	integralx+=x*cos(rad)-y*sin(rad);
 	integraly+=y*cos(rad)+x*sin(rad);
 
-	mokux=a[k]-integralx;
-	mokuy=b[k]-integraly;
+	mokux=xPurpose[k]-integralx;
+	mokuy=yPurpose[k]-integraly;
 
 	distance=hypotf(mokuy,mokux);
 	return;
 }
 
-void three::degmotor(){
+void Three::motorControl(){
 	deg=atan2f(mokuy,mokux);
 	pwmp[1]=-1*sin(deg-30*M_PI/180);
 	pwmp[0]=-1*cos(deg);
@@ -202,47 +202,47 @@ void three::degmotor(){
 
 	tmp=fabsf(pwmp[0]);
 
-	for(i=1;i<=2;i++){
+	for(int i=1;i<=2;i++){
 		if(tmp<fabsf(pwmp[i])){
 			tmp=fabsf(pwmp[i]);
 		}
 	}
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp);
 	}
 
 	return;
 }
 
-void three::degreerock(){
-	ds+=(degree-od)*d;
-	for(i=0;i<=2;i++){
-		pwmrock[i]=degree*p+ds;
+void Three::degreeLock(){
+	dControl+=(degree-degreeOld)*dGain;
+	for(int i=0;i<=2;i++){
+		pwmLock[i]=degree*pGain+dControl;
 	}
 
-	for(i=0;i<=2;i++){
-		pwmrock[i]=pwmrock[i]/3.0;
+	for(int i=0;i<=2;i++){
+		pwmLock[i]=pwmLock[i]/3.0;
 	}
 
-	od=degree;
+	degreeOld=degree;
 	return;
 }
 
-void  three::final(){
+void  Three::final(){
 
-	for(i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]-pwmrock[i];
+	for(int i=0;i<=2;i++){
+		pwmp[i]=pwmp[i]-pwmLock[i];
 	}
 
 	tmp1=fabsf(pwmp[0]);
 
-	for(i=1;i<=2;i++){
+	for(int i=1;i<=2;i++){
 		if(tmp1<fabsf(pwmp[i])){
 			tmp1=fabsf(pwmp[i]);
 		}
 	}
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp1);
 	}
 
@@ -253,7 +253,7 @@ void  three::final(){
 	cw2.digitalWrite(0);
 	ccw2.digitalWrite(1);
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		if(pwmp[i]<0){
 			if(i==0){
 				cw0.digitalWrite(1);
@@ -274,24 +274,24 @@ void  three::final(){
 	}
 
 	if(distance<=100){
-		for(i=0;i<=2;i++){
+		for(int i=0;i<=2;i++){
 			pwmp[i]=pwmp[i]*(distance/100.0);
 		}
 	}
 
 	tmp1=fabsf(pwmp[0]);
 
-	for(i=1;i<=2;i++){
+	for(int i=1;i<=2;i++){
 		if(tmp1<fabsf(pwmp[i])){
 			tmp1=fabsf(pwmp[i]);
 		}
 	}
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp1);
 	}
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		pwmp[i]=1-pwmp[i];
 	}
 
@@ -303,15 +303,15 @@ void  three::final(){
 }
 
 
-void three::indication(){
+void Three::indication(){
 	serial.printf("\r%.2f,%.2f,%.2f,%d,%d,%d,%.2f,%.2f,%.2f\n",degree,integralx,integraly,enc0.count(),enc1.count(),enc2.count(),pwmp[0],pwmp[1],pwmp[2]);
 	return;
 }
 
-void three::test(){
+void Three::test(){
 
 
-	for(i=0;i<=2;i++){
+	for(int i=0;i<=2;i++){
 		pwmp[i]=0;
 
 		pwm0.pwmWrite(pwmp[0]);
@@ -332,7 +332,7 @@ void three::test(){
 
 }
 int main(){
-	three t;
+	Three t;
 	while(1){
 
 		if(t.sw==0){
@@ -341,14 +341,14 @@ int main(){
 
 		if(t.sw==1){
 			t.degree1();
-			t.jkit();
+			t.selfPosition();
 			t.xy();
-			t.degmotor();
-			t.degreerock();
+			t.motorControl();
+			t.degreeLock();
 			t.final();
 			t.indication();
 
-			if(millis()-t.c>500){
+			if(millis()-t.time>500){
 				t.switch0();
 			}
 		}
