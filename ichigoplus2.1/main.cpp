@@ -15,74 +15,49 @@
 //circuit
 class three{
     public:
-		float a[10]{250,0,-250,0,250,250,-250,-250,0};//x
+    	float l=90;//enc distance from the center
+		float a[10]{250,0,-250,0,250,-250,250,-250,0,0};//x
 		float b[10]{250,500,250,0,0,500,500,0,0};//y
-		int sw=0;
-        int time=0;
-        float pwmp[3]={1,1,1};
-        float pwmrock[3]={0,0,0};
+		float pwmp[3]={1,1,1};
+		float oed[3]={0,0,0};
+		float pwmrock[3]={0,0,0};
+		float ned[3]={0,0,0};
+		float encDistance[3]={0,0,0};
+		float encf[3]{0,0,0};
         float rad=0;
         float degree=0;
         float od=0;
-        float l=90;//enc distance from the center
-        float encDistance0=0;
-        float encDistance1=0;
-        float encDistance2=0;
-        float Distance=0;
+        float deg=0;
         float ds=0;
-        int divide=0;
-        int i=0;
-        float j=0;
-        float p=1.0/180.0;
-        float d=0.6;
+        float p=1.0/180.0;		//p gain
+        float d=0.6;			//d gain
         float oldEnc0=0;
         float oldEnc1=0;
         float oldEnc2=0;
-        float newEnc0=0;
-        float newEnc1=0;
-        float newEnc2=0;
-        float encx0=0;
-        float encx1=0;
-        float encx2=0;
-        float ency0=0;
-        float ency1=0;
-        float ency2=0;
-        float fenc0=0;
-        float fenc1=0;
-        float fenc2=0;
-        float x=0;
-        float y=0;
         float integralx=0;
         float integraly=0;
-        float radm=0;
-        float tmp=0;
-        float rad1=0;
-        float oed0=0;
-        float oed1=0;
-        float oed2=0;
-        float ned0=0;
-        float ned1=0;
-        float ned2=0;
-        float dsm=0;
-        float pm=0;
+        float Distance=0;
         float distance=0;
         float odis=0;
         float mokux=0;
         float mokuy=0;
+        float tmp=0;
         float tmp1=0;
-        float deg=0;
-		int c=0;
-		float up=0;
-		float dg=1.0/1000.0;
-		float dx=0.8;
-		float dy=0.8;
+        float x=0;
+        float y=0;
 		float x1=0;
 		float x2=0;
 		float x3=0;
 		float y1=0;
 		float y2=0;
 		float y3=0;
+		int sw=0;
+        int time=0;
+		int divide=0;
 		int k=0;
+		int c=0;
+		int i=0;
+
         Serial0 serial;
         CCW0 ccw0;
         CCW1 ccw1;
@@ -97,16 +72,14 @@ class three{
         Enc1 enc1;
         Enc2 enc2;
         Sw0 sw0;
+        Sw1 sw1;
         three();
         void degree1();
         void jkit();
-        void jkit1();
-        void mota();
         void degreerock();
         void test();
         void xy();
-        void degmota();
-        void mota1();
+        void degmotor();
         void final();
         void indication();
         void switch0();
@@ -121,15 +94,16 @@ three::three(){
 	cw1.setupDigitalOut();
 	cw2.setupDigitalOut();
 
-	pwm0.setupPwmOut(80000,1.0);
-	pwm1.setupPwmOut(80000,1.0);
-	pwm2.setupPwmOut(80000,1.0);
+	pwm0.setupPwmOut(100000,1.0);
+	pwm1.setupPwmOut(100000,1.0);
+	pwm2.setupPwmOut(100000,1.0);
 
 	serial.setup(115200);
 	enc0.setup();
 	enc1.setup();
 	enc2.setup();
 	sw0.setupDigitalIn();
+//	sw1.setupDigitalIn();
 }
 
 void three::switch0(){
@@ -149,38 +123,36 @@ void three::switch0(){
 		ccw1.digitalWrite(0);
 		cw2.digitalWrite(0);
 		ccw2.digitalWrite(0);
-		wait(3000);
 		return;
 	}
 }
-
 void three::xy(){
-	if(distance<=8&&k!=10){
+	if(distance<=1.0&&k!=9){
 		k++;
 	}
 	return;
 }
 
 void three::degree1(){
+	encf[0]=enc0.count();
+	encf[1]=enc1.count();
+	encf[2]=enc2.count();
 
-	fenc0=enc0.count();
-	fenc1=enc1.count();
-	fenc2=enc2.count();
+	for(i=0;i<=2;i++){
+		oed[i]=encDistance[i];
+	}
 
-	newEnc0=enc0.count()-oldEnc0;
-	newEnc1=enc1.count()-oldEnc1;
-	newEnc2=enc2.count()-oldEnc2;
-	oed0=encDistance0;
-	oed1=encDistance1;
-	oed2=encDistance2;
-	encDistance0=40*M_PI*enc0.count()/200.0;
-	encDistance1=40*M_PI*enc1.count()/200.0;
-	encDistance2=40*M_PI*enc2.count()/200.0;
+	for(i=0;i<=2;i++){
+		encDistance[i]=40*M_PI*encf[i]/200.0;
+	}
 
-	rad=(encDistance0+encDistance1+encDistance2)/(l*3);
+	for(i=0;i<=2;i++){
+		ned[i]=encDistance[i]-oed[i];
+	}
+
+	rad=(encDistance[0]+encDistance[1]+encDistance[2])/(l*3);
 	degree=rad/M_PI*180;
 
-//****************degree 180 Indication*************************//
 	divide=degree/180;
 	if(divide>0){
 		if(divide%2!=0){
@@ -197,22 +169,17 @@ void three::degree1(){
 	if((int)degree%180==0&&divide%2!=0){
 		degree=180;
 	}
-//**************************************************************//
 	return;
 }
 
-void three::jkit1(){
-	ned0=encDistance0-oed0;
-	ned1=encDistance1-oed1;
-	ned2=encDistance2-oed2;
+void three::jkit(){
+	y1=((ned[1]+ned[2])/(2*cos(30*M_PI/180)))-ned[1]/cos(30*M_PI/180);
+	y2=-tan(30*M_PI/180)*ned[0]-(ned[1]/cos(30*M_PI/180));
+	y3=tan(30*M_PI/180)*ned[0]+(ned[2]/cos(30*M_PI/180));
 
-	y1=((ned1+ned2)/(2*cos(30*M_PI/180)))-ned1/cos(30*M_PI/180);
-	y2=-tan(30*M_PI/180)*ned0-(ned1/cos(30*M_PI/180));
-	y3=tan(30*M_PI/180)*ned0+(ned2/cos(30*M_PI/180));
-
-	x1=(ned1+ned2)/(2*cos(30*M_PI/180)*tan(30*M_PI/180));
-	x2=-ned0;
-	x3=-ned0;
+	x1=(ned[1]+ned[2])/(2*cos(30*M_PI/180)*tan(30*M_PI/180));
+	x2=-ned[0];
+	x3=-ned[0];
 
 	x=(x1+x2+x3)/3.0;
 	y=(y1+y2+y3)/3.0;
@@ -223,15 +190,11 @@ void three::jkit1(){
 	mokux=a[k]-integralx;
 	mokuy=b[k]-integraly;
 
-	odis=distance;
 	distance=hypotf(mokuy,mokux);
-
-	dsm+=(distance-odis)*0.000001;
-
 	return;
 }
 
-void three::degmota(){
+void three::degmotor(){
 	deg=atan2f(mokuy,mokux);
 	pwmp[1]=-1*sin(deg-30*M_PI/180);
 	pwmp[0]=-1*cos(deg);
@@ -256,13 +219,11 @@ void three::degreerock(){
 	for(i=0;i<=2;i++){
 		pwmrock[i]=degree*p+ds;
 	}
-	tmp=fabsf(pwmrock[0]);
+
 	for(i=0;i<=2;i++){
-		pwmrock[i]=pwmrock[i]/fabsf(tmp);
+		pwmrock[i]=pwmrock[i]/3.0;
 	}
-	for(i=0;i<=2;i++){
-		pwmrock[i]=pwmrock[i]/5.5;
-	}
+
 	od=degree;
 	return;
 }
@@ -311,28 +272,10 @@ void  three::final(){
 			}
 		}
 	}
-/*
-	for(i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]+dsm;
-	}
-*/
 
-
-	tmp1=fabsf(pwmp[0]);
-
-	for(i=1;i<=2;i++){
-		if(tmp1<fabsf(pwmp[i])){
-			tmp1=fabsf(pwmp[i]);
-		}
-	}
-
-	for(i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]/fabsf(tmp1);
-	}
-
-	if(distance<=10){
+	if(distance<=100){
 		for(i=0;i<=2;i++){
-			pwmp[i]=pwmp[i]*(distance/10.0);
+			pwmp[i]=pwmp[i]*(distance/100.0);
 		}
 	}
 
@@ -355,7 +298,6 @@ void  three::final(){
 	pwm0.pwmWrite(pwmp[0]);
 	pwm1.pwmWrite(pwmp[1]);
 	pwm2.pwmWrite(pwmp[2]);
-	wait(10);
 	return;
 
 }
@@ -371,7 +313,6 @@ void three::test(){
 
 	for(i=0;i<=2;i++){
 		pwmp[i]=0;
-
 
 		pwm0.pwmWrite(pwmp[0]);
 		pwm1.pwmWrite(pwmp[1]);
@@ -393,21 +334,24 @@ void three::test(){
 int main(){
 	three t;
 	while(1){
+
 		if(t.sw==0){
 			t.switch0();
 		}
-		else if(t.sw==1){
-			t.jkit1();
-			t.xy();
+
+		if(t.sw==1){
 			t.degree1();
-			t.degmota();
+			t.jkit();
+			t.xy();
+			t.degmotor();
 			t.degreerock();
 			t.final();
 			t.indication();
-		if(millis()-t.c>500){
-			t.switch0();
+
+			if(millis()-t.c>500){
+				t.switch0();
+			}
 		}
-	}
 	//t.test();
 	}
 	return 0;
