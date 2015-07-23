@@ -127,6 +127,11 @@
       <source file="..\..\..\layer_driver\board\stm32f4_config\config_pwm.c" lastModified="14eb56afa0a">
          <include file="..\..\..\layer_driver\board\stm32f4_config\config_pwm.h"/>
       </source>
+      <source file="..\..\..\main.cpp" lastModified="14eba1d60f2">
+         <include file="..\..\..\layer_driver\base\system.h"/>
+         <include file="..\..\..\layer_driver\base\mcutime.h"/>
+         <include file="..\..\..\layer_driver\board\pin.hpp"/>
+      </source>
       <source file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_lib\cdc\usbd_cdc_core.c" lastModified="14eb56af6cb">
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_lib\cdc\usbd_cdc_core.h"/>
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_conf\usbd_desc.h"/>

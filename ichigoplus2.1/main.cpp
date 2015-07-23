@@ -15,8 +15,8 @@
 //circuit
 class Three{
     public:
-		float xPurpose[10]{250,0,-250,0,250,-250,250,-250,0,0};//x
-		float yPurpose[10]{250,500,250,0,0,500,500,0,0};//y
+		float xPurpose[10]{250,   0, -250, 0, 250, -250, 250,-250, 0};//x
+		float yPurpose[10]{250, 500,  250, 0,   0,  500, 500,   0, 0};//y
 		float pwmp[3]={1,1,1};
 		float oed[3]={0,0,0};
 		float pwmLock[3]={0,0,0};
@@ -47,8 +47,10 @@ class Three{
 		float firstY=0;
 		float secondY=0;
 		float thirdY=0;
+
 		int sw=0;
         int time=0;
+        int period=0;
 		int divide=0;
 		int k=0;
 
@@ -97,13 +99,16 @@ Three::Three(){
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
+	pwm0.setupDigitalInPullDown();
+	pwm1.setupDigitalInPullDown();
+	pwm2.setupDigitalInPullDown();
 
 	serial.setup(115200);
 	enc0.setup();
 	enc1.setup();
 	enc2.setup();
 	sw0.setupDigitalIn();
-//	sw1.setupDigitalIn();
+	sw1.setupDigitalIn();
 }
 
 void Three::switch0(){
@@ -111,6 +116,9 @@ void Three::switch0(){
 		sw=1;
 		time=millis();
 		return;
+	}else if(sw1.digitalRead()==0&&sw==0){
+		sw=2;
+		time=millis();
 	}
 	else if(sw0.digitalRead()==0&&sw==1){
 		sw=0;
@@ -123,6 +131,7 @@ void Three::switch0(){
 		ccw1.digitalWrite(0);
 		cw2.digitalWrite(0);
 		ccw2.digitalWrite(0);
+		time=millis();
 		return;
 	}
 }
@@ -173,11 +182,11 @@ void Three::degree1(){
 }
 
 void Three::selfPosition(){
-	firstY=((ned[1]+ned[2])/(2*cos(30*M_PI/180)))-ned[1]/cos(30*M_PI/180);
-	secondY=-tan(30*M_PI/180)*ned[0]-(ned[1]/cos(30*M_PI/180));
-	thirdY=tan(30*M_PI/180)*ned[0]+(ned[2]/cos(30*M_PI/180));
+	firstY=((ned[1]+ned[2])/(2*cos(M_PI/6.0)))-ned[1]/cos(M_PI/6.0);
+	secondY=-tan(M_PI/6.0)*ned[0]-(ned[1]/cos(M_PI/6.0));
+	thirdY=tan(M_PI/6.0)*ned[0]+(ned[2]/cos(M_PI/6.0));
 
-	firstX=(ned[1]+ned[2])/(2*cos(30*M_PI/180)*tan(30*M_PI/180));
+	firstX=(ned[1]+ned[2])/(2*cos(M_PI/6.0)*tan(M_PI/6.0));
 	secondX=-ned[0];
 	thirdX=-ned[0];
 
@@ -196,9 +205,9 @@ void Three::selfPosition(){
 
 void Three::motorControl(){
 	deg=atan2f(mokuy,mokux);
-	pwmp[1]=-1*sin(deg-30*M_PI/180);
+	pwmp[1]=-1*sin(deg-M_PI/6.0);
 	pwmp[0]=-1*cos(deg);
-	pwmp[2]=sin(30*M_PI/180+deg);
+	pwmp[2]=sin(M_PI/6.0+deg);
 
 	tmp=fabsf(pwmp[0]);
 
@@ -323,7 +332,6 @@ void Three::test(){
 		ccw1.digitalWrite(1);
 		cw2.digitalWrite(0);
 		ccw2.digitalWrite(1);
-		wait(1000);
 
 
 	serial.printf("%d,%d,%d\n\r",enc0.count(),enc1.count(),enc2.count());
@@ -334,25 +342,28 @@ void Three::test(){
 int main(){
 	Three t;
 	while(1){
+		if(millis()-t.period>=5){
+			if(t.sw==0){
+				t.switch0();
+			}
 
-		if(t.sw==0){
-			t.switch0();
-		}
-
-		if(t.sw==1){
-			t.degree1();
-			t.selfPosition();
-			t.xy();
-			t.motorControl();
-			t.degreeLock();
-			t.final();
-			t.indication();
-
+			if(t.sw==1){
+				t.degree1();
+				t.selfPosition();
+				t.xy();
+				t.motorControl();
+				t.degreeLock();
+				t.final();
+				t.indication();
+			}
+			if(t.sw==2){
+				t.test();
+			}
 			if(millis()-t.time>500){
 				t.switch0();
 			}
+			t.period=millis();
 		}
-	//t.test();
 	}
 	return 0;
 }
