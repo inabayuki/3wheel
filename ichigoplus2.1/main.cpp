@@ -13,9 +13,15 @@
 #include "pin.hpp"
 
 //circuit
+#define l 90//enc distance from the center
+#define pGain 1.0/180.0	//p gain
+#define dGain 0.6		//d gain
+#define	diameter 40
+#define cycle 5
+
 class Three{
     public:
-		float xPurpose[10]{250,   0, -250, 0, 250, -250, 250,-250, 0};//x
+		float xPurpose[10]{250,   0, -250, 0, 250,  250,-250,-250, 0};//x
 		float yPurpose[10]{250, 500,  250, 0,   0,  500, 500,   0, 0};//y
 		float pwmp[3]={1,1,1};
 		float oed[3]={0,0,0};
@@ -54,11 +60,6 @@ class Three{
 		int divide=0;
 		int k=0;
 
-		#define l 90//enc distance from the center
-    	#define pGain 1.0/180.0	//p gain
-		#define dGain 0.6		//d gain
-		#define	diameter 40
-
         Serial0 serial;
         CCW0 ccw0;
         CCW1 ccw1;
@@ -74,6 +75,7 @@ class Three{
         Enc2 enc2;
         Sw0 sw0;
         Sw1 sw1;
+        Sw2 sw2;
 
         Three();
         void degree1();
@@ -85,6 +87,7 @@ class Three{
         void final();
         void indication();
         void switch0();
+        void dutyCleanUp();
 };
 
 Three::Three(){
@@ -99,9 +102,6 @@ Three::Three(){
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
-	pwm0.setupDigitalInPullDown();
-	pwm1.setupDigitalInPullDown();
-	pwm2.setupDigitalInPullDown();
 
 	serial.setup(115200);
 	enc0.setup();
@@ -109,28 +109,23 @@ Three::Three(){
 	enc2.setup();
 	sw0.setupDigitalIn();
 	sw1.setupDigitalIn();
+	sw2.setupDigitalIn();
 }
 
 void Three::switch0(){
-	if(sw0.digitalRead()==0&&sw==0){
+	if(sw0.digitalRead()==0&&sw!=1){
 		sw=1;
 		time=millis();
 		return;
-	}else if(sw1.digitalRead()==0&&sw==0){
+	}else if(sw1.digitalRead()==0&&sw!=2){
 		sw=2;
 		time=millis();
 	}
-	else if(sw0.digitalRead()==0&&sw==1){
+	else if(sw2.digitalRead()==0&&sw!=0){
 		sw=0;
 		pwm0.pwmWrite(1);
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
-		cw0.digitalWrite(0);
-		ccw0.digitalWrite(0);
-		cw1.digitalWrite(0);
-		ccw1.digitalWrite(0);
-		cw2.digitalWrite(0);
-		ccw2.digitalWrite(0);
 		time=millis();
 		return;
 	}
@@ -230,18 +225,13 @@ void Three::degreeLock(){
 	}
 
 	for(int i=0;i<=2;i++){
-		pwmLock[i]=pwmLock[i]/3.0;
+		pwmLock[i]=pwmLock[i]/2.5;
 	}
-
 	degreeOld=degree;
 	return;
 }
 
-void  Three::final(){
-
-	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]-pwmLock[i];
-	}
+void Three::dutyCleanUp(){
 
 	tmp1=fabsf(pwmp[0]);
 
@@ -253,6 +243,19 @@ void  Three::final(){
 
 	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp1);
+	}
+
+
+	pwm0.pwmWrite(1.0-pwmp[0]);
+	pwm1.pwmWrite(1.0-pwmp[1]);
+	pwm2.pwmWrite(1.0-pwmp[2]);
+	return;
+}
+
+void  Three::final(){
+
+	for(int i=0;i<=2;i++){
+		pwmp[i]=pwmp[i]-pwmLock[i];
 	}
 
 	cw0.digitalWrite(0);
@@ -287,30 +290,7 @@ void  Three::final(){
 			pwmp[i]=pwmp[i]*(distance/100.0);
 		}
 	}
-
-	tmp1=fabsf(pwmp[0]);
-
-	for(int i=1;i<=2;i++){
-		if(tmp1<fabsf(pwmp[i])){
-			tmp1=fabsf(pwmp[i]);
-		}
-	}
-
-	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]/fabsf(tmp1);
-	}
-
-	for(int i=0;i<=2;i++){
-		pwmp[i]=1-pwmp[i];
-	}
-
-	pwm0.pwmWrite(pwmp[0]);
-	pwm1.pwmWrite(pwmp[1]);
-	pwm2.pwmWrite(pwmp[2]);
-	return;
-
 }
-
 
 void Three::indication(){
 	serial.printf("\r%.2f,%.2f,%.2f,%d,%d,%d,%.2f,%.2f,%.2f\n",degree,integralx,integraly,enc0.count(),enc1.count(),enc2.count(),pwmp[0],pwmp[1],pwmp[2]);
@@ -321,20 +301,13 @@ void Three::test(){
 
 
 	for(int i=0;i<=2;i++){
-		pwmp[i]=0;
-
-		pwm0.pwmWrite(pwmp[0]);
-		pwm1.pwmWrite(pwmp[1]);
-		pwm2.pwmWrite(pwmp[2]);
+		pwmp[i]=1;
 		cw0.digitalWrite(0);
 		ccw0.digitalWrite(1);
 		cw1.digitalWrite(0);
 		ccw1.digitalWrite(1);
 		cw2.digitalWrite(0);
 		ccw2.digitalWrite(1);
-
-
-	serial.printf("%d,%d,%d\n\r",enc0.count(),enc1.count(),enc2.count());
 	}
 	return;
 
@@ -342,11 +315,11 @@ void Three::test(){
 int main(){
 	Three t;
 	while(1){
-		if(millis()-t.period>=5){
+		if(millis()-t.period>=cycle){
+			t.period=millis();
 			if(t.sw==0){
 				t.switch0();
 			}
-
 			if(t.sw==1){
 				t.degree1();
 				t.selfPosition();
@@ -354,15 +327,18 @@ int main(){
 				t.motorControl();
 				t.degreeLock();
 				t.final();
+				t.dutyCleanUp();
 				t.indication();
 			}
 			if(t.sw==2){
 				t.test();
+				t.dutyCleanUp();
+				t.indication();
 			}
-			if(millis()-t.time>500){
+			if(millis()-t.time>1000){
 				t.switch0();
 			}
-			t.period=millis();
+
 		}
 	}
 	return 0;
