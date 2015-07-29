@@ -1,0 +1,48 @@
+#include "control.hpp"
+
+
+Connection::Connection(){
+    serial.setup(115200);
+    sw0.setupDigitalIn();
+	sw1.setupDigitalIn();
+	sw2.setupDigitalIn();
+	ccw0.setupDigitalOut();
+	ccw1.setupDigitalOut();
+	ccw2.setupDigitalOut();
+
+	cw0.setupDigitalOut();
+	cw1.setupDigitalOut();
+	cw2.setupDigitalOut();
+
+	pwm0.setupPwmOut(100000,1.0);
+	pwm1.setupPwmOut(100000,1.0);
+	pwm2.setupPwmOut(100000,1.0);
+}
+
+void Connection::switch0(){
+	if(sw0.digitalRead()==0&&sw!=1){
+		sw=1;
+		time=millis();
+		return;
+	}else if(sw1.digitalRead()==0&&sw!=2){
+		sw=2;
+		time=millis();
+	}
+	else if(sw2.digitalRead()==0&&sw!=0){
+		sw=0;
+		pwm0.pwmWrite(1);
+		pwm1.pwmWrite(1);
+		pwm2.pwmWrite(1);
+		time=millis();
+		return;
+	}
+}
+void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
+	if(distanceC<=1.0&&k!=9){
+		k++;
+	}
+	mokux=xPurpose[k]-integralxC;
+	mokuy=yPurpose[k]-integralyC;
+	return;
+}
+

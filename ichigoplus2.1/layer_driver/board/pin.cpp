@@ -1772,26 +1772,34 @@ float Buzzer::_pwmWrite()
 }
 
 #define SERIAL0TxRx	GPIOA,GPIO_Pin_2,GPIOA,GPIO_Pin_3
+#define SERIAL0CH USART2
+//#define SERIAL0TxRx GPIOD,GPIO_Pin_8,GPIOD,GPIO_Pin_9
+//#define SERIAL0CH USART3
 #define SERIAL1TxRx	GPIOB,GPIO_Pin_10,GPIOB,GPIO_Pin_11
+#define SERIAL1CH USART3
 
 SerialInterface *Serial0::interface;
 
 int Serial0::_setup(int baudrate, SerialInterface &interfaceArg, int parity, int wordLength)
 {
-	Init_USART(USART2,baudrate,SERIAL0TxRx,parity,wordLength);
+	Init_USART(SERIAL0CH,baudrate,SERIAL0TxRx,parity,wordLength);
 	interface=&interfaceArg;
-	//interface->serialInterfaceSetup(transmit);
+	interface->serialInterfaceSetup(transmit);
 	return 0;
 }
 
 void Serial0::charWrite(char value)
 {
-	while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
-	USART_SendData(USART2, value);
+	transmit(value);
 }
 
 void serial0_interrupt(){
-	Serial0::interface->serialReadChar(USART_ReceiveData(USART2));
+	Serial0::interface->serialReadChar(USART_ReceiveData(SERIAL0CH));
+}
+
+void Serial0::transmit(char value){
+	while(USART_GetFlagStatus(SERIAL0CH, USART_FLAG_TXE) == RESET);
+	USART_SendData(SERIAL0CH, value);
 }
 
 extern "C" void USART2_IRQHandler(void){
@@ -1802,25 +1810,136 @@ SerialInterface *Serial1::interface;
 
 int Serial1::_setup(int baudrate, SerialInterface &interfaceArg, int parity, int wordLength)
 {
-	Init_USART(USART3,baudrate,SERIAL1TxRx,parity,wordLength);
+	Init_USART(SERIAL1CH,baudrate,SERIAL1TxRx,parity,wordLength);
 	interface=&interfaceArg;
-	//interface->serialInterfaceSetup(transmit);
+	interface->serialInterfaceSetup(transmit);
 	return 0;
+}
+
+void serial1_interrupt(){
+	Serial1::interface->serialReadChar(USART_ReceiveData(SERIAL1CH));
+}
+
+extern "C" void USART3_IRQHandler(void){
+	serial1_interrupt();
 }
 
 void Serial1::charWrite(char value)
 {
-	while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
-	USART_SendData(USART3, value);
+	transmit(value);
+}
+
+void Serial1::transmit(char value){
+	while(USART_GetFlagStatus(SERIAL1CH, USART_FLAG_TXE) == RESET);
+	USART_SendData(SERIAL1CH, value);
 }
 
 void std_char_out(char value){
-	while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
-	USART_SendData(USART2, value);
+	while(USART_GetFlagStatus(SERIAL0CH, USART_FLAG_TXE) == RESET);
+	USART_SendData(SERIAL0CH, value);
 }
 
 int std_char_out_setup(){
 	Serial0::interface=new SerialInterface();
-	Init_USART(USART2,9600,SERIAL0TxRx,0,8);
+	Init_USART(SERIAL0CH,9600,SERIAL0TxRx,0,8);
 	return 0;
+}
+
+
+#define CAN_PORT GPIOD,GPIO_Pin_0,GPIOD,GPIO_Pin_1
+#define CAN_NUMBER 1
+
+CanInterface *Can0::canInterface[30];
+int Can0::canInterfaceCursor=0;
+
+Can0::Can0(){
+	setuped=false;
+	filter_number=4;
+}
+
+int  Can0::setup(){
+	printf("can0 setup...");
+	int returnValue=0;
+	if(!setuped){
+		Init_CAN(CAN_NUMBER,CAN_Mode_Normal,CAN_PORT); returnValue=0;
+		if(returnValue==0) setuped=true;
+		if(setuped)printf("done\n");
+	}
+	else{
+		returnValue=0;
+	}
+	return returnValue;
+}
+
+int Can0::setupLoopBack(){
+	int returnValue=0;
+	if(!setuped){
+		Init_CAN(CAN_NUMBER,CAN_Mode_LoopBack,CAN_PORT); returnValue=0;
+		if(returnValue==0) setuped=true;
+	}
+	else{
+		returnValue=0;
+	}
+	return returnValue;
+}
+
+int Can0::addInterface(CanInterface &interfaceArg){
+	if(canInterfaceCursor>=30) return 1;
+	canInterface[canInterfaceCursor++]=&interfaceArg;
+	interfaceArg.canInterfaceSetup(this);
+	return 0;
+}
+
+int Can0::setId(int id){
+	int row=filter_number/4;
+	filter[filter_number]=(short)id;
+	printf("%s,set id:%x\n",__func__,id);
+	Init_CANfilter(row           , CAN_LIST               , filter[row*4+0], CAN_DATA        , filter[row*4+1], CAN_DATA,         filter[row*4+2], CAN_DATA,         filter[row*4+3], CAN_DATA);
+	filter_number++;
+	return 0;
+}
+int Can0::setIdAll(){
+	Init_CANfilter(10           , CAN_MASK               ,0, CAN_DATA        , 0, CAN_DATA,         0, CAN_DATA,        0,CAN_DATA);
+	return 0;
+}
+
+int Can0::read(int id,int number,unsigned char data[8]){
+//	printf("id:%x length:%x data:%x,%x,%x,%x,%x,%x,%x,%x\n",id,number,data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+	for(int i=0;i<canInterfaceCursor;i++) if(canInterface[i]->canId(id)) canInterface[i]->canRead(id,number,data);
+	return 0;
+}
+
+int Can0::write(int id,int number,unsigned char data[8]){
+	CanTxMsg can_tx_flame;
+	can_tx_flame.StdId=id;
+	can_tx_flame.ExtId=0;
+	can_tx_flame.IDE=CAN_Id_Standard;
+	if(number!=0)can_tx_flame.RTR=CAN_RTR_Data;
+	else can_tx_flame.RTR=CAN_RTR_Remote;
+	can_tx_flame.DLC=(uint8_t)number;
+	can_tx_flame.Data[0]=data[0];
+	can_tx_flame.Data[1]=data[1];
+	can_tx_flame.Data[2]=data[2];
+	can_tx_flame.Data[3]=data[3];
+	can_tx_flame.Data[4]=data[4];
+	can_tx_flame.Data[5]=data[5];
+	can_tx_flame.Data[6]=data[6];
+	can_tx_flame.Data[7]=data[7];
+	printf("can0_transmit id:%x length:%d data:%x,%x,%x,%x,%x,%x,%x,%x writing...",(unsigned int)can_tx_flame.StdId,can_tx_flame.DLC,can_tx_flame.Data[0],can_tx_flame.Data[1],can_tx_flame.Data[2],can_tx_flame.Data[3],can_tx_flame.Data[4],can_tx_flame.Data[5],can_tx_flame.Data[6],can_tx_flame.Data[7]);
+	send_can1(&can_tx_flame);
+	printf("done.\n");
+	return 0;
+}
+
+CanRxMsg can_rx_flame;
+void Can0_Interrupt(){
+	if (CAN_GetITStatus(CAN1,CAN_IT_FMP0)){
+		CAN_Receive(CAN1, CAN_FIFO0, &can_rx_flame);
+		Can0::read((int)can_rx_flame.StdId,(int)can_rx_flame.DLC,can_rx_flame.Data);
+	}
+}
+
+extern "C" void CAN1_RX0_IRQHandler(void)
+{
+	Can0_Interrupt();
 }

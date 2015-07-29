@@ -1191,6 +1191,7 @@ private:
 	friend int std_char_out_setup();
 	friend void serial0_interrupt();
 public:
+	static void transmit(char);
 	void charWrite(char value);
 };
 
@@ -1198,10 +1199,30 @@ class Serial1:public Serial{
 private:
 	static SerialInterface *interface;
 	int _setup(int baudrate, SerialInterface &interfaceArg, int parity, int wordLength);
-	friend void USART3_IRQHandler(void);
+	friend void serial1_interrupt();
 public:
-	static void interrupt();
+	static void transmit(char);
 	void charWrite(char value);
 };
 
+#include "can.hpp"
+#define NUMBER_OF_CAN_INTERFACE 30
+class Can0:public Can{
+public:
+	Can0();
+	int setup();
+	int setupLoopBack();
+	int addInterface(CanInterface &interfaceArg);
+	int setId(int id);
+	int setIdAll();
+	int write(int id,int number,unsigned char data[8]);
+private:
+	int filter_number;
+	short filter[14*4];
+	bool setuped;
+	static CanInterface *canInterface[30];
+	static int canInterfaceCursor;
+	static int read(int id,int number,unsigned char data[8]);
+	friend void Can0_Interrupt();
+};
 #endif // PIN_H_INCLUDED
