@@ -45,4 +45,8 @@ void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
 	mokuy=yPurpose[k]-integralyC;
 	return;
 }
+void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
+	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC);
+	return;
+}
 

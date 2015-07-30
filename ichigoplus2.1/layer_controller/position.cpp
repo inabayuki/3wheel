@@ -1,19 +1,12 @@
 #include "position.hpp"
 
 
-Position::Position(){
-    serial.setup(115200);
-	enc0.setup();
-	enc1.setup();
-	enc2.setup();
 
-
-}
 
 void Position::radian(){
-	encf[2]=canEnc0.count();
-	encf[0]=canEnc1.count();
-	encf[1]=canEnc2.count();
+	encf[2]=canEncC0->count();//0->1
+	encf[0]=canEncC1->count();
+	encf[1]=canEncC2->count();
 
 	for(int i=0;i<=2;i++){
 		oldEncDistance[i]=encDistance[i];

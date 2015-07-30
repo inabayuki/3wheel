@@ -15,14 +15,28 @@
 #include "pin.hpp"
 
 //circuit
+#include "circuit/can_encoder.hpp"
+
 
 
 
 int main(void)
 {
-	Position posi;
+	Can0 can;
+/*	can.setup();
+*/
+	CanEncoder can0(can,0,5);
+	CanEncoder can1(can,1,5);
+	CanEncoder can2(can,2,5);
+
+	can0.setup();
+	can1.setup();
+	can2.setup();
+	//Position posi;
 	Motor mo;
 	Connection connect;
+
+	Position posi(can0,can1,can2);
 
 	while(1){
 
@@ -39,6 +53,7 @@ int main(void)
 				mo.degreeLock(posi.degree);
 				mo.last();
 				mo.dutyCleanUp();
+				connect.indication(posi.encf[0],posi.encf[1],posi.encf[2],posi.degree,posi.integralx,posi.integraly);
 			}
 
 			if(millis()-connect.time>1000){

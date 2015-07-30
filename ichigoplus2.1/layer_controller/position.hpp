@@ -15,6 +15,7 @@
 #define POSITION_HPP
 //circuit
 #include "circuit/can_encoder.hpp"
+#include "can.hpp"
 #define l 115//enc distance from the center
 #define pGain 1.0/180.0	//p gain
 #define dGain 0.6		//d gain
@@ -26,7 +27,7 @@ private:
 	float encDistance[3]={0,0,0};
     float oldEncDistance[3]={0,0,0};
     float newEncDistance[3]={0,0,0};
-    float encf[3]{0,0,0};
+
     float x=0;
 	float y=0;
 	float firstX=0;
@@ -38,21 +39,37 @@ private:
 	int divide=0;
 
 public:
+	Serial0 serial;
+	Enc0 enc0;
+	Enc1 enc1;
+	Enc2 enc2;
+	Can0 can;
+	Encoder *canEncC0;
+	Encoder *canEncC1;
+	Encoder *canEncC2;
     float rad=0;
     float degree=0;
     float integralx=0;
     float integraly=0;
-    Position();
+    int encf[3]{0,0,0};
+
+    Position(Encoder &canEncC0,Encoder &canEncC1,Encoder &canEncC2){
+    	this->canEncC0 = &canEncC0;
+		this->canEncC1 = &canEncC1;
+		this->canEncC2 = &canEncC2;
+
+		serial.setup(115200);
+		enc0.setup();
+		enc1.setup();
+		enc2.setup();
+		canEncC0.setup();
+		canEncC1.setup();
+		canEncC2.setup();
+
+}
     void radian();
     void selfPosition();
-    Serial0 serial;
-    Enc0 enc0;
-    Enc1 enc1;
-    Enc2 enc2;
-    Can0 can;
-    CanEncoder canEnc0;
-    CanEncoder canEnc1;
-    CanEncoder canEnc2;
+
 
 
 

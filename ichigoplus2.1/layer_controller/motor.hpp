@@ -24,11 +24,11 @@ private:
 
     float pwmLock[3]={0,0,0};
     float degreeOld=0;
-    float mokuxC=0;
-    float mokuyC=0;
+    float *mokuxC=0;
+    float *mokuyC=0;
     float tmp=0;
     float tmp1=0;
-    float degree1=0;
+    float *degree1=0;
     float dControl=0;
 public:
     float distance=0;

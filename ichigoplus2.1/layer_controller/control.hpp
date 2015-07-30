@@ -21,9 +21,12 @@ private:
     int k=0;
     float xPurpose[10]{250,   0, -250, 0, 250,  250,-250,-250, 0};//x
     float yPurpose[10]{250, 500,  250, 0,   0,  500, 500,   0, 0};//y
-    float distanceC=0;
-    float integralxC=0;
-    float integralyC=0;
+    float *distanceC=0;
+    float *integralxC=0;
+    float *integralyC=0;
+    float *enc0=0,*enc1=0,*enc2=0;
+    float *degree=0;
+
 
 
 
@@ -37,6 +40,7 @@ public:
     Connection();
     void xy(float& distanceC,float&integralxC,float&integralyC);
     void switch0();
+    void indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC);
 
     Serial0 serial;
     Sw0 sw0;
