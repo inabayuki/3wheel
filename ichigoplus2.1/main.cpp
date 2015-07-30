@@ -26,26 +26,26 @@ int main(void)
 
 	while(1){
 
-			if(millis()-connect.period>=cycle){
-				connect.period=millis();
-				if(connect.sw==0){
-					connect.switch0();
-				}
-				if(connect.sw==1){
-					posi.radian();
-					posi.selfPosition();
-					connect.xy(mo.distance,posi.integralx,posi.integraly);
-					mo.motorControl(connect.mokux,connect.mokuy);
-					mo.degreeLock(posi.degree);
-					mo.last();
-					mo.dutyCleanUp();
-				}
-
-				if(millis()-connect.time>1000){
-					connect.switch0();
-				}
-
+		if(millis()-connect.period>=cycle){
+			connect.period=millis();
+			if(connect.sw==0){
+				connect.switch0();
 			}
+			if(connect.sw==1){
+				posi.radian();
+				posi.selfPosition();
+				connect.xy(mo.distance,posi.integralx,posi.integraly);
+				mo.motorControl(connect.mokux,connect.mokuy);
+				mo.degreeLock(posi.degree);
+				mo.last();
+				mo.dutyCleanUp();
+			}
+
+			if(millis()-connect.time>1000){
+				connect.switch0();
+			}
+
+		}
 	}
 	return 0;
 }
