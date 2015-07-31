@@ -4,14 +4,26 @@ Motor::Motor(){
 	ccw0.setupDigitalOut();
 	ccw1.setupDigitalOut();
 	ccw2.setupDigitalOut();
+	ccw3.setupDigitalOut();
 
 	cw0.setupDigitalOut();
 	cw1.setupDigitalOut();
 	cw2.setupDigitalOut();
+	cw3.setupDigitalOut();
 
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
+	pwm3.setupPwmOut(100000,1.0);
+}
+
+void Motor::armMotor(){
+
+	pwm3.pwmWrite(1.0-pwmp[3]);
+	cw3.digitalWrite(0);
+	ccw3.digitalWrite(1);
+	return;
+
 }
 
 void Motor::motorControl(float& mokuxC,float& mokuyC){

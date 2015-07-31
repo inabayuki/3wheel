@@ -20,6 +20,7 @@ Connection::Connection(){
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
+	pwm3.setupPwmOut(100000,1.0);
 
 	potentio.setupDigitalIn();
 	limFlont.setupDigitalIn();
@@ -36,6 +37,7 @@ void Connection::switch0(){
 	}
 	else if(sw2.digitalRead()==0&&sw!=0){
 		sw=0;
+		pwm3.pwmWrite(1);
 		pwm0.pwmWrite(1);
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
@@ -43,6 +45,7 @@ void Connection::switch0(){
 		return;
 	}
 }
+
 void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
 	if(distanceC<=1.0&&k!=9){
 		k++;
@@ -51,6 +54,7 @@ void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
 	mokuy=yPurpose[k]-integralyC;
 	return;
 }
+
 void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
 	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC);
 	return;

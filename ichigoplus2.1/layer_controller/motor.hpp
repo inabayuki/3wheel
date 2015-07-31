@@ -32,7 +32,7 @@ private:
     float dControl=0;
 public:
     float distance=0;
-    float pwmp[3]={1,1,1};
+    float pwmp[4]={1,1,1,1};
     Motor();
     void armMotor();
     void motorControl(float& mokuxC,float& mokuyC);

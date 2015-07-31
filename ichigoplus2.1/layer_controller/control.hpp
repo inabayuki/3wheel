@@ -27,9 +27,6 @@ private:
     float *enc0=0,*enc1=0,*enc2=0;
     float *degree=0;
 
-
-
-
 public:
     float mokux=0;
     float mokuy=0;
@@ -55,6 +52,7 @@ public:
 	Pwm0 pwm0;
 	Pwm1 pwm1;
 	Pwm2 pwm2;
+	Pwm3 pwm3;
 	A2 potentio;
 	A3 limFlont;
 

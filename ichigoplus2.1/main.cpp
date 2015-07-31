@@ -55,6 +55,9 @@ int main(void)
 				mo.dutyCleanUp();
 				connect.indication(posi.encf[0],posi.encf[1],posi.encf[2],posi.degree,posi.integralx,posi.integraly);
 			}
+			if(connect.sw==2){
+				mo.armMotor();
+			}
 
 			if(millis()-connect.time>1000){
 				connect.switch0();
