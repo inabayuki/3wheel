@@ -34,6 +34,7 @@ public:
     float distance=0;
     float pwmp[3]={1,1,1};
     Motor();
+    void armMotor();
     void motorControl(float& mokuxC,float& mokuyC);
     void degreeLock(float& degree1);
     void dutyCleanUp();
@@ -42,11 +43,16 @@ public:
     CCW0 ccw0;
 	CCW1 ccw1;
 	CCW2 ccw2;
+	CCW3 ccw3;
+
 	CW0 cw0;
 	CW1 cw1;
 	CW2 cw2;
+	CW3 cw3;
+
 	Pwm0 pwm0;
 	Pwm1 pwm1;
 	Pwm2 pwm2;
+	Pwm3 pwm3;
 };
 #endif//MOTOR_HPP

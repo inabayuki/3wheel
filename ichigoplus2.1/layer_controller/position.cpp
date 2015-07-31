@@ -12,7 +12,9 @@ void Position::radian(){
 		oldEncDistance[i]=encDistance[i];
 	}
 
-	for(int i=0;i<=2;i++){
+	encDistance[2]=diameter*M_PI*encf[2]/1000.0;
+
+	for(int i=0;i<=1;i++){
 		encDistance[i]=diameter*M_PI*encf[i]/200.0;
 	}
 

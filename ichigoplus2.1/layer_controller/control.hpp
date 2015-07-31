@@ -55,6 +55,8 @@ public:
 	Pwm0 pwm0;
 	Pwm1 pwm1;
 	Pwm2 pwm2;
+	A2 potentio;
+	A3 limFlont;
 
 };
 #endif//CONTROL_HPP

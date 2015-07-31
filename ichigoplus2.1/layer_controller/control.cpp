@@ -2,10 +2,13 @@
 
 
 Connection::Connection(){
+
     serial.setup(115200);
+
     sw0.setupDigitalIn();
 	sw1.setupDigitalIn();
 	sw2.setupDigitalIn();
+
 	ccw0.setupDigitalOut();
 	ccw1.setupDigitalOut();
 	ccw2.setupDigitalOut();
@@ -17,6 +20,9 @@ Connection::Connection(){
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
+
+	potentio.setupDigitalIn();
+	limFlont.setupDigitalIn();
 }
 
 void Connection::switch0(){

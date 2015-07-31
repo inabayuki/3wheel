@@ -13,6 +13,7 @@ Motor::Motor(){
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
 }
+
 void Motor::motorControl(float& mokuxC,float& mokuyC){
 	deg=atan2f(mokuyC,mokuxC);
 	distance=hypot(mokuxC,mokuyC);
@@ -30,7 +31,6 @@ void Motor::motorControl(float& mokuxC,float& mokuyC){
 	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp);
 	}
-
 	return;
 }
 

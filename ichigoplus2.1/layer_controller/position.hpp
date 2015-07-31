@@ -54,6 +54,7 @@ public:
     int encf[3]{0,0,0};
 
     Position(Encoder &canEncC0,Encoder &canEncC1,Encoder &canEncC2){
+
     	this->canEncC0 = &canEncC0;
 		this->canEncC1 = &canEncC1;
 		this->canEncC2 = &canEncC2;
@@ -62,18 +63,8 @@ public:
 		enc0.setup();
 		enc1.setup();
 		enc2.setup();
-		canEncC0.setup();
-		canEncC1.setup();
-		canEncC2.setup();
-
 }
     void radian();
     void selfPosition();
-
-
-
-
-
-
 };
 #endif//POSITION_HPP
