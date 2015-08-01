@@ -26,9 +26,9 @@ void Motor::armMotor(){
 
 }
 
-void Motor::motorControl(float& mokuxC,float& mokuyC){
-	deg=atan2f(mokuyC,mokuxC);
-	distance=hypot(mokuxC,mokuyC);
+void Motor::motorControl(float& devietionXc,float& devietionYc){
+	deg=atan2f(devietionYc,devietionXc);
+	distance=hypot(devietionXc,devietionYc);
 	pwmp[0]=sin(deg-M_PI/6.0);
 	pwmp[2]=cos(deg);
 	pwmp[1]=-1*sin(M_PI/6.0+deg);
@@ -62,7 +62,6 @@ void Motor::degreeLock(float& degree1){
 void Motor::dutyCleanUp(){
 
 	tmp1=fabsf(pwmp[0]);
-
 	for(int i=1;i<=2;i++){
 		if(tmp1<fabsf(pwmp[i])){
 			tmp1=fabsf(pwmp[i]);
@@ -72,7 +71,6 @@ void Motor::dutyCleanUp(){
 	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp1);
 	}
-
 
 	pwm0.pwmWrite(1.0-pwmp[0]);
 	pwm1.pwmWrite(1.0-pwmp[1]);

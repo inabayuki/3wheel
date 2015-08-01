@@ -1,8 +1,5 @@
 #include "position.hpp"
 
-
-
-
 void Position::radian(){
 	encf[0]=canEncC0->count();//0->1
 	encf[1]=canEncC1->count();

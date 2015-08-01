@@ -19,8 +19,8 @@
 class Connection{
 private:
     int k=0;
-    float xPurpose[10]{250,   0, -250, 0, 250,  250,-250,-250, 0};//x
-    float yPurpose[10]{250, 500,  250, 0,   0,  500, 500,   0, 0};//y
+    float targetX[10]{250, 250, -250, 0, 250, 250,-250,-250, 0};//x
+    float targetY[10]{250, 500,  250, 0,   0, 500, 500,   0, 0};//y
     float *distanceC=0;
     float *integralxC=0;
     float *integralyC=0;
@@ -28,11 +28,13 @@ private:
     float *degree=0;
 
 public:
-    float mokux=0;
-    float mokuy=0;
+    float limit1=0;
+    float devietionX=0;
+    float devietionY=0;
     int period=0;
     float time=0;
     int sw=0;
+    float limitC=0;
 
     Connection();
     void xy(float& distanceC,float&integralxC,float&integralyC);
@@ -55,6 +57,8 @@ public:
 	Pwm3 pwm3;
 	A2 potentio;
 	A3 limFlont;
+
+
 
 };
 #endif//CONTROL_HPP

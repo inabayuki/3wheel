@@ -23,7 +23,7 @@ Connection::Connection(){
 	pwm3.setupPwmOut(100000,1.0);
 
 	potentio.setupDigitalIn();
-	limFlont.setupDigitalIn();
+	limFlont.setupAnalogIn();
 }
 
 void Connection::switch0(){
@@ -31,7 +31,8 @@ void Connection::switch0(){
 		sw=1;
 		time=millis();
 		return;
-	}else if(sw1.digitalRead()==0&&sw!=2){
+	}
+	else if(sw1.digitalRead()==0&&sw!=2){
 		sw=2;
 		time=millis();
 	}
@@ -44,19 +45,26 @@ void Connection::switch0(){
 		time=millis();
 		return;
 	}
+	if(limFlont.analogRead()==0){
+		pwm3.pwmWrite(1);
+		time=millis();
+		return;
+	}
 }
 
 void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
 	if(distanceC<=1.0&&k!=9){
 		k++;
 	}
-	mokux=xPurpose[k]-integralxC;
-	mokuy=yPurpose[k]-integralyC;
+	devietionX=targetX[k]-integralxC;
+	devietionY=targetY[k]-integralyC;
 	return;
 }
 
 void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
-	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC);
+
+	limitC=limFlont.analogRead();
+	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,limitC);
 	return;
 }
 

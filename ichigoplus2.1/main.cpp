@@ -7,6 +7,8 @@
 #include "layer_controller/position.hpp"
 #include "layer_controller/motor.hpp"
 #include "layer_controller/control.hpp"
+#include "layer_controller/test.hpp"
+
 //base
 #include "system.h"
 #include "mcutime.h"
@@ -32,37 +34,38 @@ int main(void)
 	canEncoder0.setup();
 	canEncoder1.setup();
 	canEncoder2.setup();
-	//Position posi;
-	Motor mo;
+	//positiontion position;
+	Motor motor;
 	Connection connect;
+	Testmotor t;
 
-	Position posi(canEncoder0,canEncoder1,canEncoder2);
+	Position position(canEncoder0,canEncoder1,canEncoder2);
 
 	while(1){
 
 		if(millis()-connect.period>=cycle){
 			connect.period=millis();
+
 			if(connect.sw==0){
 				connect.switch0();
 			}
+
 			if(connect.sw==1){
-				posi.radian();
-				posi.selfPosition();
-				connect.xy(mo.distance,posi.integralx,posi.integraly);
-				mo.motorControl(connect.mokux,connect.mokuy);
-				mo.degreeLock(posi.degree);
-				mo.last();
-				mo.dutyCleanUp();
-				connect.indication(posi.encf[0],posi.encf[1],posi.encf[2],posi.degree,posi.integralx,posi.integraly);
+				position.radian();
+				position.selfPosition();
+				connect.xy(motor.distance,position.integralx,position.integraly);
+				motor.motorControl(connect.devietionX,connect.devietionY);
+				motor.degreeLock(position.degree);
+				motor.last();
+				motor.dutyCleanUp();
+				connect.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly);
 			}
 			if(connect.sw==2){
-				mo.armMotor();
+				motor.armMotor();
 			}
-
 			if(millis()-connect.time>1000){
 				connect.switch0();
 			}
-
 		}
 	}
 	return 0;
