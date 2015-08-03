@@ -23,7 +23,8 @@ Connection::Connection(){
 	pwm3.setupPwmOut(100000,1.0);
 
 	potentio.setupDigitalIn();
-	limFlont.setupAnalogIn();
+	limFlont.setupDigitalIn();
+	limBack.setupDigitalIn();
 }
 
 void Connection::switch0(){
@@ -45,25 +46,49 @@ void Connection::switch0(){
 		time=millis();
 		return;
 	}
-	if(limFlont.analogRead()==0){
-		pwm3.pwmWrite(1);
-		time=millis();
-		return;
+}
+
+void Connection::stopMotor(){
+	if(stopNumber[point]==0){
+		pwm0.pwmWrite(1);
+		pwm1.pwmWrite(1);
+		pwm2.pwmWrite(1);
+	}
+}
+void Connection::arm(){
+	if(millis()-timeLim>1000)
+		armpwmC=armpwm[point];
+		armcwC=armcw[point];
+		armccwC=armccw[point];
+	if(millis()-timeLim<=1000){
+
+		if(limFlont.digitalRead()==0){
+			armpwmC=0;
+			timeLim=millis();
+			stopNumber[point]=1;
+			return;
+		}
+		else if(limBack.digitalRead()==0){
+			armpwmC=0;
+			timeLim=millis();
+			stopNumber[point]=1;
+			return;
+		}
 	}
 }
 
 void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
-	if(distanceC<=1.0&&k!=9){
-		k++;
+	if(distanceC<=1.0&&distanceC!=0){
+		point++;
 	}
-	devietionX=targetX[k]-integralxC;
-	devietionY=targetY[k]-integralyC;
+	devietionX=targetX[point]-integralxC;
+	devietionY=targetY[point]-integralyC;
 	return;
 }
 
 void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
 
-	limitC=limFlont.analogRead();
+	limitC=limBack.digitalRead();
 	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,limitC);
 	return;
 }

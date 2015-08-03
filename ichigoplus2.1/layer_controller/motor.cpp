@@ -15,15 +15,16 @@ Motor::Motor(){
 	pwm1.setupPwmOut(100000,1.0);
 	pwm2.setupPwmOut(100000,1.0);
 	pwm3.setupPwmOut(100000,1.0);
+	limFlont.setupDigitalIn();
+	limBack.setupDigitalIn();
+
 }
 
-void Motor::armMotor(){
-
-	pwm3.pwmWrite(1.0-pwmp[3]);
-	cw3.digitalWrite(0);
-	ccw3.digitalWrite(1);
+void Motor::armMotor(int &armpwm,int &armcw,int &armccw){
+	pwm3.pwmWrite(1.0-armpwm);
+	cw3.digitalWrite(armcw);
+	ccw3.digitalWrite(armccw);
 	return;
-
 }
 
 void Motor::motorControl(float& devietionXc,float& devietionYc){
@@ -51,9 +52,8 @@ void Motor::degreeLock(float& degree1){
 	for(int i=0;i<=2;i++){
 		pwmLock[i]=degree1*pGain+dControl;
 	}
-
 	for(int i=0;i<=2;i++){
-		pwmLock[i]=pwmLock[i]/2.5;
+		pwmLock[i]=pwmLock[i]/4.5;
 	}
 	degreeOld=degree1;
 	return;

@@ -21,21 +21,26 @@
 class Motor{
 private:
     float deg=0;
-
     float pwmLock[3]={0,0,0};
     float degreeOld=0;
-    float *mokuxC=0;
-    float *mokuyC=0;
+    float *devietionXc=0;
+    float *devietionYc=0;
     float tmp=0;
     float tmp1=0;
     float *degree1=0;
     float dControl=0;
+
+
+    int *armpwm=0;
+    int *armcw=0;
+    int *armccw=0;
+
 public:
     float distance=0;
-    float pwmp[4]={1,1,1,1};
+    float pwmp[4]={1,1,1,0};
     Motor();
-    void armMotor();
-    void motorControl(float& mokuxC,float& mokuyC);
+    void armMotor(int &armpwm,int &armcw,int &armccw);
+    void motorControl(float& devietionXc,float& devietionYc);
     void degreeLock(float& degree1);
     void dutyCleanUp();
     void last();
@@ -54,5 +59,9 @@ public:
 	Pwm1 pwm1;
 	Pwm2 pwm2;
 	Pwm3 pwm3;
+
+	A3 limFlont;
+	A1 limBack;
+
 };
 #endif//MOTOR_HPP

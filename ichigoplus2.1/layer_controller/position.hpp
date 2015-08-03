@@ -63,6 +63,7 @@ public:
 		enc0.setup();
 		enc1.setup();
 		enc2.setup();
+
     }
     void radian();
     void selfPosition();
