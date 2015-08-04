@@ -49,18 +49,19 @@ int main(void)
 			if(connect.sw==1){
 				position.radian();
 				position.selfPosition();
-				connect.xy(motor.distance,position.integralx,position.integraly);
-				connect.arm();
 				if(connect.stopNumber[connect.point]==1){
-					motor.armMotor(connect.armpwmC,connect.armcwC,connect.armccwC);
 					motor.motorControl(connect.devietionX,connect.devietionY);
 					motor.degreeLock(position.degree);
 					motor.last();
+					motor.dutyCleanUp();
 				}
 				else if(connect.stopNumber[connect.point]==0){
+					motor.angel(position.rad);
 					connect.stopMotor();
 				}
-				motor.dutyCleanUp();
+				connect.arm();
+				motor.armMotor(connect.armpwmC,connect.armcwC,connect.armccwC);
+				connect.xy(position.integralx,position.integraly);
 				connect.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly);
 			}
 			if(millis()-connect.time>1000){

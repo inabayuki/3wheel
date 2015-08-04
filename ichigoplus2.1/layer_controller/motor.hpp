@@ -15,6 +15,7 @@
 #define MOTOR_HPP
 
 //circuit
+#define pGaina 1.0/M_PI;
 #define pGain 1.0/180.0	//p gain
 #define dGain 0.6		//d gain
 
@@ -28,7 +29,10 @@ private:
     float tmp=0;
     float tmp1=0;
     float *degree1=0;
+    float radAppoint=M_PI/2.0;
     float dControl=0;
+    float radOld=0;
+    float *rad=0;
 
 
     int *armpwm=0;
@@ -44,6 +48,7 @@ public:
     void degreeLock(float& degree1);
     void dutyCleanUp();
     void last();
+    void angel(float&rad);
 
     CCW0 ccw0;
 	CCW1 ccw1;

@@ -49,47 +49,78 @@ void Connection::switch0(){
 }
 
 void Connection::stopMotor(){
-	if(stopNumber[point]==0){
+	if(con!=1){
 		pwm0.pwmWrite(1);
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
+		con=1;
 	}
+	if(swi==0){
+		if(limBack.digitalRead()==1){
+			timeStop=millis();
+			swi=1;
+		}
+		if(limFlont.digitalRead()==1){
+			timeStop=millis();
+			swi=1;
+		}
+	}
+	if(swi==1){
+		if(millis()-timeStop>=3000){
+			stopNumber[point]=1;
+			swi=0;
+		}
+	}
+
 }
 void Connection::arm(){
-	if(millis()-timeLim>1000)
-		armpwmC=armpwm[point];
-		armcwC=armcw[point];
-		armccwC=armccw[point];
-	if(millis()-timeLim<=1000){
+	armpwmC=armpwm[point];
+	armcwC=armcw[point];
+	armccwC=armccw[point];
 
-		if(limFlont.digitalRead()==0){
-			armpwmC=0;
+	if(limFlont.digitalRead()==1){
+		if(millis()-timeLim>=2000){
 			timeLim=millis();
-			stopNumber[point]=1;
-			return;
 		}
-		else if(limBack.digitalRead()==0){
+		if(millis()-timeLim<=1000){
 			armpwmC=0;
-			timeLim=millis();
-			stopNumber[point]=1;
-			return;
 		}
+		return;
 	}
+	else if(limBack.digitalRead()==1){
+		if(millis()-timeLim>=2000){
+			timeLim=millis();
+		}
+		if(millis()-timeLim<=1000){
+			armpwmC=0;
+		}
+		return;
+	}
+
+
 }
 
-void Connection::xy(float& distanceC,float&integralxC,float&integralyC){
-	if(distanceC<=1.0&&distanceC!=0){
-		point++;
-	}
+
+void Connection::xy(float&integralxC,float&integralyC){
 	devietionX=targetX[point]-integralxC;
 	devietionY=targetY[point]-integralyC;
+	distance=hypot(devietionX,devietionY);
+	if(distance!=0){
+		if(millis()-timepoint>=1000){
+			if(distance<=2.0){
+				point++;
+				timepoint=millis();
+			}
+		}
+	}
+
 	return;
 }
 
 void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
 
-	limitC=limBack.digitalRead();
-	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,limitC);
+	limitC=limFlont.digitalRead();
+	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point);
 	return;
 }
 

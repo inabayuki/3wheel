@@ -19,35 +19,38 @@
 class Connection{
 private:
 
-    float targetX[10]{  0,   0,   0, 0, 250, 250,-250,-250, 0};//x
-    float targetY[10]{500,   0, 500, 0,   0, 500, 500,   0, 0};//y
+    float targetX[10]{  0,   0, 200, 0, 250, 250, -250,-250, 0};//x
+    float targetY[10]{500,   0,   0, 0,   0, 500,  500,   0, 0};//y
 
     int     armpwm[10]{0,1,1,0,0,0,0,0,0,0};
 	int      armcw[10]{1,1,0,1,1,1,1,1,1,1};
 	int     armccw[10]{1,0,1,1,1,1,1,1,1,1};
-    float *distanceC=0;
+	int timepoint=0;
+	int timeStop=500000000;
+	int swi=0;
+    float distance=0;
     float *integralxC=0;
     float *integralyC=0;
     float *enc0=0,*enc1=0,*enc2=0;
     float *degree=0;
     float timeLim=0;
 
-
 public:
-    int stopNumber[10]{1,0,1,1,1,1,1,1,1,1};
+    int stopNumber[10]{1,0,1,0,1,1,1,1,1,1};
     int point=0;
+    int con=1;
     float limit1=0;
     float devietionX=0;
     float devietionY=0;
-    int period=0;
     float time=0;
-    int sw=0;
     float limitC=0;
+    int sw=0;
+    int period=0;
     int armpwmC=0;
     int armcwC=0;
     int armccwC=0;
     Connection();
-    void xy(float& distanceC,float&integralxC,float&integralyC);
+    void xy(float&integralxC,float&integralyC);
     void switch0();
     void indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC);
     void arm();

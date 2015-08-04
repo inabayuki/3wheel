@@ -52,26 +52,52 @@ void Motor::degreeLock(float& degree1){
 	for(int i=0;i<=2;i++){
 		pwmLock[i]=degree1*pGain+dControl;
 	}
+
 	for(int i=0;i<=2;i++){
 		pwmLock[i]=pwmLock[i]/4.5;
 	}
+
 	degreeOld=degree1;
 	return;
 }
 
-void Motor::dutyCleanUp(){
-
-	tmp1=fabsf(pwmp[0]);
-	for(int i=1;i<=2;i++){
-		if(tmp1<fabsf(pwmp[i])){
-			tmp1=fabsf(pwmp[i]);
+void Motor::angel(float&rad){
+	dControl+=(rad-radOld)*dGain;
+	for(int i=0;i<=2;i++){
+		pwmp[i]=(rad-radAppoint)*pGaina+dControl;
+	}
+	cw0.digitalWrite(1);
+	ccw0.digitalWrite(0);
+	cw1.digitalWrite(1);
+	ccw1.digitalWrite(0);
+	cw2.digitalWrite(1);
+	ccw2.digitalWrite(0);
+	for(int i=0;i<=2;i++){
+		if(pwmp[i]<0){
+			if(i==0){
+				cw0.digitalWrite(0);
+				ccw0.digitalWrite(1);
+				pwmp[i]=pwmp[i]*-1;
+			}
+			if(i==1){
+				cw1.digitalWrite(0);
+				ccw1.digitalWrite(1);
+				pwmp[i]=pwmp[i]*-1;
+			}
+			if(i==2){
+				cw2.digitalWrite(0);
+				ccw2.digitalWrite(1);
+				pwmp[i]=pwmp[i]*-1;
+			}
 		}
 	}
+	pwm0.pwmWrite(1.0-pwmp[0]);
+	pwm1.pwmWrite(1.0-pwmp[1]);
+	pwm2.pwmWrite(1.0-pwmp[2]);
+	radOld=rad;
 
-	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]/fabsf(tmp1);
-	}
-
+}
+void Motor::dutyCleanUp(){
 	pwm0.pwmWrite(1.0-pwmp[0]);
 	pwm1.pwmWrite(1.0-pwmp[1]);
 	pwm2.pwmWrite(1.0-pwmp[2]);
@@ -121,9 +147,9 @@ void  Motor::last(){
 		}
 	}
 
-	if(distance<=100){
+	if(distance<=3){
 		for(int i=0;i<=2;i++){
-			pwmp[i]=pwmp[i]*(distance/100.0);
+			pwmp[i]=pwmp[i]*(distance/3.0);
 		}
 	}
 }
