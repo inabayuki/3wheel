@@ -15,9 +15,10 @@
 #define MOTOR_HPP
 
 //circuit
-#define pGaina 1.0/M_PI;
+#define pGaina 1.0/M_PI
+#define dGaina 0.4
 #define pGain 1.0/180.0	//p gain
-#define dGain 0.6		//d gain
+#define dGain 0.4		//d gain
 
 class Motor{
 private:
@@ -29,26 +30,33 @@ private:
     float tmp=0;
     float tmp1=0;
     float *degree1=0;
-    float radAppoint=M_PI/2.0;
     float dControl=0;
+    float dControlA=0;
     float radOld=0;
     float *rad=0;
+    float *xC;
+    float rightAngel=90/180.0*M_PI;
 
 
     int *armpwm=0;
     int *armcw=0;
     int *armccw=0;
+    int timedegree=0;
+    int degSw=0;
 
 public:
     float distance=0;
     float pwmp[4]={1,1,1,0};
+    float radAppoint=90;
+    float degreeAppoint=0;
     Motor();
-    void armMotor(int &armpwm,int &armcw,int &armccw);
-    void motorControl(float& devietionXc,float& devietionYc);
-    void degreeLock(float& degree1);
+    void armMotor(int armpwm,int armcw,int armccw);
+    void motorControl(float devietionXc,float devietionYc);
+    void xCoordinateMotor(float xC);
+    void degreeLock(float degree1);
     void dutyCleanUp();
     void last();
-    void angel(float&rad);
+    void angel(float degree1);
 
     CCW0 ccw0;
 	CCW1 ccw1;

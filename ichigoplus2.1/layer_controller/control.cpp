@@ -25,17 +25,19 @@ Connection::Connection(){
 	potentio.setupDigitalIn();
 	limFlont.setupDigitalIn();
 	limBack.setupDigitalIn();
+	buzzer.setupDigitalOut();
 }
 
 void Connection::switch0(){
 	if(sw0.digitalRead()==0&&sw!=1){
 		sw=1;
 		time=millis();
-		return;
+		buzzer.digitalHigh();
 	}
 	else if(sw1.digitalRead()==0&&sw!=2){
 		sw=2;
 		time=millis();
+		buzzer.digitalHigh();
 	}
 	else if(sw2.digitalRead()==0&&sw!=0){
 		sw=0;
@@ -44,83 +46,91 @@ void Connection::switch0(){
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
 		time=millis();
-		return;
+		buzzer.digitalHigh();
+	}
+	if(millis()-time>=500){
+		buzzer.digitalLow();
 	}
 }
 
 void Connection::stopMotor(){
-	if(con!=1){
+
 		pwm0.pwmWrite(1);
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
-		con=1;
-	}
-	if(swi==0){
-		if(limBack.digitalRead()==1){
-			timeStop=millis();
-			swi=1;
-		}
-		if(limFlont.digitalRead()==1){
-			timeStop=millis();
-			swi=1;
-		}
-	}
-	if(swi==1){
-		if(millis()-timeStop>=3000){
-			stopNumber[point]=1;
-			swi=0;
-		}
-	}
 
 }
+
+void Connection::spinControl(float radAppoint,float degree1){
+	/*if(con1==0){
+		timeMotor=millis();
+		con1=1;
+	}
+
+	if(millis()-timeMotor<=700&&con1==1){
+		pwm0.pwmWrite(0);
+		pwm1.pwmWrite(0);
+		cw0.digitalWrite(0);
+		ccw0.digitalWrite(1);
+		cw1.digitalWrite(1);
+		ccw1.digitalWrite(0);
+		con1=0;
+	}
+	*/
+	if(fabsf(radAppoint-degree1)<=1){
+		spinNumber[point]=1;
+		actionNumber[point]=1;
+	}
+}
+
 void Connection::arm(){
 	armpwmC=armpwm[point];
 	armcwC=armcw[point];
 	armccwC=armccw[point];
-
+	limF=0;
+	limB=0;
 	if(limFlont.digitalRead()==1){
-		if(millis()-timeLim>=2000){
-			timeLim=millis();
-		}
-		if(millis()-timeLim<=1000){
-			armpwmC=0;
-		}
-		return;
-	}
-	else if(limBack.digitalRead()==1){
-		if(millis()-timeLim>=2000){
-			timeLim=millis();
-		}
-		if(millis()-timeLim<=1000){
-			armpwmC=0;
-		}
-		return;
+		limF=1;
 	}
 
+	if(limBack.digitalRead()==1){
+		limB=1;
+	}
 
+	if(oldLimF!=limF){
+		if(oldLimB!=limB){
+			oldLimB=limB;
+			oldLimF=limF;
+			timeLim=millis();
+			limSw=0;
+		}
+	}
+
+	if(millis()-timeLim>=1500&&limSw==0){
+		stopNumber[point]=1;
+		armpwm[point]=0;
+		limSw=1;
+	}
 }
 
-
-void Connection::xy(float&integralxC,float&integralyC){
+void Connection::xy(float integralxC,float integralyC){
 	devietionX=targetX[point]-integralxC;
 	devietionY=targetY[point]-integralyC;
 	distance=hypot(devietionX,devietionY);
 	if(distance!=0){
 		if(millis()-timepoint>=1000){
-			if(distance<=2.0){
+			if(distance<=1.0){
 				point++;
 				timepoint=millis();
 			}
 		}
 	}
-
 	return;
 }
 
-void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
+void Connection::indication(float&enc0,float&enc1,float&enc2,float&degree,float&integralxC,float&integralyC){
 
 	limitC=limFlont.digitalRead();
-	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point);
+	serial.printf("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point);
 	return;
 }
-
