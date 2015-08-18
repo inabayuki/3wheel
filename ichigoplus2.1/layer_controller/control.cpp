@@ -54,39 +54,19 @@ void Connection::switch0(){
 }
 
 void Connection::stopMotor(){
-
 		pwm0.pwmWrite(1);
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
-
 }
 
-void Connection::spinControl(float radAppoint,float degree1){
-	/*if(con1==0){
-		timeMotor=millis();
-		con1=1;
-	}
-
-	if(millis()-timeMotor<=700&&con1==1){
-		pwm0.pwmWrite(0);
-		pwm1.pwmWrite(0);
-		cw0.digitalWrite(0);
-		ccw0.digitalWrite(1);
-		cw1.digitalWrite(1);
-		ccw1.digitalWrite(0);
-		con1=0;
-	}
-	*/
-	if(fabsf(radAppoint-degree1)<=1){
-		spinNumber[point]=1;
+void Connection::spinControl(float degreeC){
+	if(fabsf(90-degreeC)<=1.0){
+		//spinNumber[point]=1;
 		actionNumber[point]=1;
 	}
 }
 
 void Connection::arm(){
-	armpwmC=armpwm[point];
-	armcwC=armcw[point];
-	armccwC=armccw[point];
 	limF=0;
 	limB=0;
 	if(limFlont.digitalRead()==1){
@@ -106,11 +86,15 @@ void Connection::arm(){
 		}
 	}
 
-	if(millis()-timeLim>=1500&&limSw==0){
-		stopNumber[point]=1;
+	if(millis()-timeLim>=1000&&limSw==0){
+		//stopNumber[point]=1;
 		armpwm[point]=0;
+		spinNumber[point]=1;
 		limSw=1;
 	}
+	armpwmC=armpwm[point];
+	armcwC=armcw[point];
+	armccwC=armccw[point];
 }
 
 void Connection::xy(float integralxC,float integralyC){
@@ -118,11 +102,9 @@ void Connection::xy(float integralxC,float integralyC){
 	devietionY=targetY[point]-integralyC;
 	distance=hypot(devietionX,devietionY);
 	if(distance!=0){
-		if(millis()-timepoint>=1000){
-			if(distance<=1.0){
-				point++;
-				timepoint=millis();
-			}
+		if(distance<=10.0&&millis()-timepoint>=200){
+			point++;
+			timepoint=millis();
 		}
 	}
 	return;

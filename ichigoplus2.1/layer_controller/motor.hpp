@@ -24,6 +24,7 @@ class Motor{
 private:
     float deg=0;
     float pwmLock[3]={0,0,0};
+    float pwmCood[3]{0,0,0};
     float degreeOld=0;
     float *devietionXc=0;
     float *devietionYc=0;
@@ -35,17 +36,19 @@ private:
     float radOld=0;
     float *rad=0;
     float *xC;
-    float rightAngel=90/180.0*M_PI;
+    float rightAngel=M_PI;
+    float degreeDivietion=0;
+    float *degree2;
 
 
     int *armpwm=0;
     int *armcw=0;
     int *armccw=0;
     int timedegree=0;
-    int degSw=0;
 
 public:
     float distance=0;
+    int degSw=0;
     float pwmp[4]={1,1,1,0};
     float radAppoint=90;
     float degreeAppoint=0;
@@ -56,7 +59,8 @@ public:
     void degreeLock(float degree1);
     void dutyCleanUp();
     void last();
-    void angel(float degree1);
+    void angel(float degree1,float degree2);
+    void xCoordinateClear();
 
     CCW0 ccw0;
 	CCW1 ccw1;

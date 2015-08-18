@@ -50,37 +50,40 @@ int main(void)
 			if(control.sw==0){
 				control.switch0();
 			}
-
 			if(control.sw==1){
 				position.radian();
 				position.selfPosition();
-				if(control.point<3){
-					if(control.stopNumber[control.point]==1){
-						motor.motorControl(control.devietionX,control.devietionY);
-						motor.degreeLock(position.degree);
-						motor.last();
-						motor.dutyCleanUp();
+
+				if(control.spinNumber[control.point]==1){
+					if(fabsf(position.integralx)>=10.0&&control.targetX[control.point]==0){
+						motor.xCoordinateMotor(position.integralx);
 					}
-					else if(control.stopNumber[control.point]==0){
-						control.stopMotor();
+					if((fabsf(position.integralx)<10.0&&control.targetX[control.point]==0)||control.targetX[control.point]!=0){
+						motor.xCoordinateClear();
 					}
-					if(control.spinNumber[control.point]==0){
-						motor.angel(position.degree);
-						control.spinControl(motor.radAppoint,position.degree);
-					}
-					if(control.actionNumber[control.point]==1){
-						control.arm();
-						motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
-					}
-					control.xy(position.integralx,position.integraly);
+					motor.motorControl(control.devietionX,control.devietionY);
+					motor.degreeLock(position.degree);
+					motor.last();
+					motor.dutyCleanUp();
+					motor.degSw=0;
 				}
 				/*
-				if(position.integralx>=2.0){
-					motor.xCoordinateMotor(position.integralx);
+				else if(control.stopNumber[control.point]==0){
+					control.stopMotor();
 				}
 				*/
+				else if(control.spinNumber[control.point]==0){
+					motor.angel(position.degree,position.degree);
+					control.spinControl(position.degree);
+				}
+				if(control.actionNumber[control.point]==1){
+					control.arm();
+					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
+				}
+				if(control.point<3){
+					control.xy(position.integralx,position.integraly);
+				}
 				else if(control.point>=3){
-					control.stopMotor();
 					buzzer.digitalHigh();
 
 				}
@@ -93,3 +96,4 @@ int main(void)
 	}
 	return 0;
 }
+

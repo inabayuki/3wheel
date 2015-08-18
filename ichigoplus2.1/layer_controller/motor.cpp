@@ -54,61 +54,70 @@ void Motor::degreeLock(float degree1){
 	}
 
 	for(int i=0;i<=2;i++){
-		pwmLock[i]=pwmLock[i]/4.0;
+		pwmLock[i]=pwmLock[i];
 	}
 
 	degreeOld=degree1;
 	return;
 }
-
-void Motor::xCoordinateMotor(float xC){
-	if(xC<0){
-		rightAngel=rightAngel*-1;
+void Motor::xCoordinateClear(){
+	for(int i=0;i<=2;i++){
+		pwmCood[i]=0;
 	}
-	pwmp[0]=sin(rightAngel-M_PI/6.0);
-	pwmp[2]=cos(rightAngel);
-	pwmp[1]=-1*sin(M_PI/6.0+rightAngel);
-	tmp=fabsf(pwmp[0]);
+}
+void Motor::xCoordinateMotor(float xC){
+	rightAngel=0;
+	if(xC<0){
+		rightAngel=M_PI;
+	}
+	pwmCood[0]=sin(rightAngel-M_PI/6.0);
+	pwmCood[2]=cos(rightAngel);
+	pwmCood[1]=-1*sin(M_PI/6.0+rightAngel);
+	tmp=fabsf(pwmCood[0]);
 
 	for(int i=1;i<=2;i++){
-		if(tmp<fabsf(pwmp[i])){
-			tmp=fabsf(pwmp[i]);
+		if(tmp<fabsf(pwmCood[i])){
+			tmp=fabsf(pwmCood[i]);
 		}
 	}
 	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]/fabsf(tmp);
+		pwmCood[i]=pwmCood[i]/fabsf(tmp);
 	}
+	for(int i=0;i<=2;i++){
+		pwmCood[i]=pwmCood[i]/5.0;
+	}
+	/*
 	cw0.digitalWrite(0);
 	ccw0.digitalWrite(1);
 	cw1.digitalWrite(0);
 	ccw1.digitalWrite(1);
 	cw2.digitalWrite(0);
 	ccw2.digitalWrite(1);
+
 	for(int i=0;i<=2;i++){
-		if(pwmp[i]<0){
+		if(pwmCood[i]<0){
 			if(i==0){
 				cw0.digitalWrite(1);
 				ccw0.digitalWrite(0);
-				pwmp[i]=pwmp[i]*-1;
+				pwmCood[i]=pwmCood[i]*-1;
 			}
 			if(i==1){
 				cw1.digitalWrite(1);
 				ccw1.digitalWrite(0);
-				pwmp[i]=pwmp[i]*-1;
+				pwmCood[i]=pwmCood[i]*-1;
 			}
 			if(i==2){
 				cw2.digitalWrite(1);
 				ccw2.digitalWrite(0);
-				pwmp[i]=pwmp[i]*-1;
+				pwmCood[i]=pwmCood[i]*-1;
 			}
 		}
 	}
-	pwm0.pwmWrite(1.0-pwmp[0]);
-	pwm1.pwmWrite(1.0-pwmp[1]);
-	pwm2.pwmWrite(1.0-pwmp[2]);
+	*/
 	return;
 }
-void Motor::angel(float degree1){
+
+void Motor::angel(float degree1,float degree2){
 
 	degree1=degree1-degreeAppoint;
 	dControlA+=(degree1-degreeOld)*dGaina;
@@ -145,15 +154,15 @@ void Motor::angel(float degree1){
 	pwm2.pwmWrite(1.0-pwmp[2]);
 	degreeOld=degree1;
 	if(degSw==0){
-		if(millis()-timedegree>=100){
+		degreeDivietion=degreeAppoint-degree2;
+		if(degreeAppoint!=90&&millis()-timedegree>=100){
 			degreeAppoint+=5;
 			timedegree=millis();
 		}
 	}
-	if(degreeAppoint==90){
+	if(degreeAppoint==90&&fabsf(degreeDivietion)<=3){
 		degSw=1;
 	}
-
 }
 void Motor::dutyCleanUp(){
 	pwm0.pwmWrite(1.0-pwmp[0]);
@@ -165,7 +174,7 @@ void Motor::dutyCleanUp(){
 void  Motor::last(){
 
 	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]-pwmLock[i];
+		pwmp[i]=pwmp[i]-pwmLock[i]+pwmCood[i];
 	}
     tmp1=fabsf(pwmp[0]);
 
@@ -204,9 +213,15 @@ void  Motor::last(){
 		}
 	}
 
-	if(distance<=1){
+	if(10<distance<=50.0){
 		for(int i=0;i<=2;i++){
-			pwmp[i]=pwmp[i]*(distance/1.0);
+			pwmp[i]=pwmp[i]*(1-pow(1-distance/50.0,2.0));
 		}
 	}
+	if(distance<=10){
+		for(int i=0;i<=2;i++){
+			pwmp[i]=pwmp[i]*distance/10;
+		}
+	}
+
 }
