@@ -8,14 +8,17 @@ Connection::Connection(){
     sw0.setupDigitalIn();
 	sw1.setupDigitalIn();
 	sw2.setupDigitalIn();
+	sw3.setupDigitalIn();
 
 	ccw0.setupDigitalOut();
 	ccw1.setupDigitalOut();
 	ccw2.setupDigitalOut();
+	ccw3.setupDigitalOut();
 
 	cw0.setupDigitalOut();
 	cw1.setupDigitalOut();
 	cw2.setupDigitalOut();
+	cw3.setupDigitalOut();
 
 	pwm0.setupPwmOut(100000,1.0);
 	pwm1.setupPwmOut(100000,1.0);
@@ -26,8 +29,15 @@ Connection::Connection(){
 	limFlont.setupDigitalIn();
 	limBack.setupDigitalIn();
 	buzzer.setupDigitalOut();
+	pote.setupAnalogIn();
 }
 
+void Connection::test(){
+	pwm3.pwmWrite(0);
+	cw3.digitalWrite(0);
+	ccw3.digitalWrite(1);
+	serial.printf("%f\n\r",pote.analogRead());
+}
 void Connection::switch0(){
 	if(sw0.digitalRead()==0&&sw!=1){
 		sw=1;
@@ -48,6 +58,9 @@ void Connection::switch0(){
 		time=millis();
 		buzzer.digitalHigh();
 	}
+	else if(sw3.digitalRead()==0&&sw!=3){
+		sw=3;
+	}
 	if(millis()-time>=500){
 		buzzer.digitalLow();
 	}
@@ -63,34 +76,21 @@ void Connection::spinControl(float degreeC){
 	if(fabsf(90-degreeC)<=1.0){
 		//spinNumber[point]=1;
 		actionNumber[point]=1;
+
+	}
+}
+void Connection::armTime(){
+	if(swArm==0){
+		timeArm=millis();
+		swArm=1;
 	}
 }
 
 void Connection::arm(){
-	limF=0;
-	limB=0;
-	if(limFlont.digitalRead()==1){
-		limF=1;
-	}
-
-	if(limBack.digitalRead()==1){
-		limB=1;
-	}
-
-	if(oldLimF!=limF){
-		if(oldLimB!=limB){
-			oldLimB=limB;
-			oldLimF=limF;
-			timeLim=millis();
-			limSw=0;
-		}
-	}
-
-	if(millis()-timeLim>=1000&&limSw==0){
-		//stopNumber[point]=1;
+	if(millis()-timeArm>=1500){
 		armpwm[point]=0;
 		spinNumber[point]=1;
-		limSw=1;
+		swArm=0;
 	}
 	armpwmC=armpwm[point];
 	armcwC=armcw[point];
@@ -101,8 +101,11 @@ void Connection::xy(float integralxC,float integralyC){
 	devietionX=targetX[point]-integralxC;
 	devietionY=targetY[point]-integralyC;
 	distance=hypot(devietionX,devietionY);
+	return;
+}
+void Connection::coordinatePoint(){
 	if(distance!=0){
-		if(distance<=10.0&&millis()-timepoint>=200){
+		if(distance<=7.0&&millis()-timepoint>=1500){
 			point++;
 			timepoint=millis();
 		}
@@ -113,6 +116,5 @@ void Connection::xy(float integralxC,float integralyC){
 void Connection::indication(float&enc0,float&enc1,float&enc2,float&degree,float&integralxC,float&integralyC){
 
 	limitC=limFlont.digitalRead();
-	serial.printf("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point);
-	return;
+	serial.printf("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,point%d,f%d,b%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point,limFlont.digitalRead(),limBack.digitalRead());
 }

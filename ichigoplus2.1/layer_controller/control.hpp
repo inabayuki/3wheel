@@ -18,8 +18,6 @@
 
 class Connection{
 private:
-
-
 	int timepoint=0;
 	int timeStop=5000000000;
     int timeSpin=0;
@@ -36,18 +34,20 @@ private:
     float *integralyC;
     float *enc0,*enc1,*enc2;
     float *degreeC;
-    float timeLim=500000000;
+    float timeArm=0;
     int limSw=1;
 
+
 public:
-    float targetX[10]{   0, 0, 0,  0,  0, 250,-250,-250, 0};//x
-    float targetY[10]{2000, 0, 0,500,  0, 500, 500,   0, 0};//y
-    int   stopNumber[10]{1,0,1,0,1,1,1,1,1,1};
-    int   spinNumber[10]{1,0,1,1,1,1,1,1,1,1};
-    int actionNumber[10]{1,0,1,1,1,1,1,1,1,1};
-    int       armpwm[10]{0,1,1,0,0,0,0,0,0,0};
-   	int        armcw[10]{1,1,0,1,1,1,1,1,1,1};
-   	int       armccw[10]{1,0,1,1,1,1,1,1,1,1};
+    int swArm=0;
+    float targetX[10]{   0,   0,-750,-750,-750,   0,   0,-1750,-1750};//x
+    float targetY[10]{1930,1250,1250,   0, 850,1930,1800,  400,    0};//y
+    int   stopNumber[10]{1,0,1,0,1,1,0,0,1,1};
+    int   spinNumber[10]{1,0,1,1,1,1,0,1,1,1};
+    int actionNumber[10]{1,0,1,1,1,1,0,1,1,1};
+    int       armpwm[10]{0,1,1,0,0,0,1,1,0,0};
+   	int        armcw[10]{1,1,0,1,1,1,1,0,1,1};
+   	int       armccw[10]{1,0,1,1,1,1,0,1,1,1};
     int point=0;
     int con=1;
     int number=0;
@@ -64,17 +64,21 @@ public:
     int armccwC=0;
     Connection();
     void xy(float integralxC,float integralyC);
+    void coordinatePoint();
     void switch0();
     void indication(float&enc0,float&enc1,float&enc2,float&degree,float&integralxC,float&integralyC);
     void arm();
     void spinControl(float degreeC);
     void stopMotor();
+    void armTime();
+    void test();
 
     Serial0 serial;
 
     Sw0 sw0;
     Sw1 sw1;
     Sw2 sw2;
+    Sw3 sw3;
     CCW0 ccw0;
 	CCW1 ccw1;
 	CCW2 ccw2;
@@ -90,6 +94,7 @@ public:
 	A1 limBack;
 	A2 potentio;
 	A3 limFlont;
+	A4 pote;
 	Buzzer buzzer;
 };
 #endif//CONTROL_HPP

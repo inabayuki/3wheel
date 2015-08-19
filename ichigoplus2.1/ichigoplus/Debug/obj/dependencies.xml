@@ -586,7 +586,7 @@
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_lib\core\usbd_def.h"/>
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_lib\core\usbd_core.h"/>
       </source>
-      <source file="..\..\..\layer_controller\motor.cpp" lastModified="14f3e9cb74d">
+      <source file="..\..\..\layer_controller\motor.cpp" lastModified="14f409b4ea0">
          <include file="..\..\..\layer_controller\motor.hpp"/>
       </source>
       <source file="..\..\..\layer_driver\board\stm32f4_config\sd\fatfs\lo_level_ub\stm32_ub_sdcard.c" lastModified="14ecf406c02">
@@ -631,7 +631,7 @@
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_lib\otg\usb_core.h"/>
          <include file="..\..\..\layer_driver\board\stm32f4_config\usb\usb_conf\usb_bsp.h"/>
       </source>
-      <source file="..\..\..\layer_controller\control.cpp" lastModified="14f3e9da177">
+      <source file="..\..\..\layer_controller\control.cpp" lastModified="14f407952af">
          <include file="..\..\..\layer_controller\control.hpp"/>
       </source>
       <source file="..\..\..\cmsis_lib\include\stm32f4xx_gpio.h" lastModified="14ecf40523f">
@@ -839,7 +839,7 @@
       <source file="..\..\..\layer_driver\board\stm32f4_config\config_usart.c" lastModified="14ecf4068c6">
          <include file="..\..\..\layer_driver\board\stm32f4_config\config_usart.h"/>
       </source>
-      <source file="..\..\..\layer_controller\motor.hpp" lastModified="14f3e7d612e">
+      <source file="..\..\..\layer_controller\motor.hpp" lastModified="14f408d321d">
          <include file="..\..\..\layer_driver\base\system.h"/>
          <include file="..\..\..\layer_driver\base\mcutime.h"/>
          <include file="..\..\..\layer_driver\board\pin.hpp"/>
@@ -915,7 +915,7 @@
       <source file="..\..\..\cmsis_lib\source\stm32f4xx_crc.c" lastModified="14ecf4053a7">
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_crc.h"/>
       </source>
-      <source file="..\..\..\layer_controller\control.hpp" lastModified="14f3e878dcc">
+      <source file="..\..\..\layer_controller\control.hpp" lastModified="14f451de328">
          <include file="..\..\..\layer_driver\base\system.h"/>
          <include file="..\..\..\layer_driver\base\mcutime.h"/>
          <include file="..\..\..\layer_driver\board\pin.hpp"/>
@@ -999,7 +999,7 @@
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_tim.h"/>
          <include file="..\..\..\cmsis_lib\include\stm32f4xx_rcc.h"/>
       </source>
-      <source file="..\..\..\main.cpp" lastModified="14f3e86a4d7">
+      <source file="..\..\..\main.cpp" lastModified="14f40458000">
          <include file="..\..\..\layer_controller\blink.hpp"/>
          <include file="..\..\..\layer_controller\position.hpp"/>
          <include file="..\..\..\layer_controller\motor.hpp"/>

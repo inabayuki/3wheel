@@ -27,37 +27,37 @@
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.cpp" partName="main.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" title="main.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="main.cpp" partName="main.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" title="main.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/main.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2074" selectionTopPixel="1348"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="973" selectionTopPixel="978"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="position.cpp" partName="position.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.cpp" title="position.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/position.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="240" selectionTopPixel="559"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="667" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="motor.hpp" partName="motor.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" title="motor.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/motor.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="410" selectionTopPixel="1059"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="184" selectionTopPixel="1059"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="motor.cpp" partName="motor.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.cpp" title="motor.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/motor.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4413" selectionTopPixel="2313"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1787" selectionTopPixel="1285"/>
 </editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="control.hpp" partName="control.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" title="control.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="control.hpp" partName="control.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" title="control.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/control.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="686" selectionTopPixel="1274"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1106" selectionTopPixel="676"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="control.cpp" partName="control.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.cpp" title="control.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/control.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2303" selectionTopPixel="1739"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1515" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="position.hpp" partName="position.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.hpp" title="position.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/position.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="903" selectionTopPixel="799"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="927" selectionTopPixel="799"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="pin.hpp" partName="pin.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/board/pin.hpp" title="pin.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/board/pin.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_driver/board/pin.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10211" selectionTopPixel="11375"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="14409" selectionTopPixel="13868"/>
 </editor>
 </editors>
 <views>
@@ -115,19 +115,22 @@
 <hide_toolbar_item_id id="org.eclipse.cdt.debug.internal.ui.actions.ToggleInstructionStepModeAction"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.TerminateAndRelaunch"/>
-<view id="org.coocox.component.ui.ComponentView"/>
 <view id="org.coocox.builder.ui.views.ProjectView"/>
 <view id="org.coocox.component.ui.Help"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
-<fastViewBars/>
+<fastViewBars>
+<fastViewBar fastViewLocation="16384" id="org.eclipse.ui.internal.ViewStack@12b5ea1" orientation="256" selectedTabId="org.coocox.component.ui.ComponentView" style="0">
+<fastViews>
+<view id="org.coocox.component.ui.ComponentView" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
 <layout>
 <mainWindow>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@12b5ea1">
-<folder activePageID="org.coocox.component.ui.ComponentView" appearance="2" expanded="2">
-<page content="org.coocox.component.ui.ComponentView" label="Components"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<folder appearance="2" expanded="0">
+<page content="org.coocox.component.ui.ComponentView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="stickyFolderRight" ratio="0.7496955" ratioLeft="1231" ratioRight="411" relationship="2" relative="org.eclipse.ui.internal.ViewStack@12b5ea1">
@@ -144,7 +147,7 @@
 </presentation>
 </folder>
 </info>
-<info part="org.coocox.builder.ui.exampleView" ratio="0.21985383" ratioLeft="361" ratioRight="1281" relationship="2" relative="org.eclipse.ui.internal.ViewStack@12b5ea1"/>
+<info part="org.coocox.builder.ui.exampleView" ratio="0.089000836" ratioLeft="106" ratioRight="1085" relationship="2" relative="org.eclipse.ui.internal.ViewStack@12b5ea1"/>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@118568c" ratio="0.71975017" ratioLeft="922" ratioRight="359" relationship="2" relative="org.coocox.builder.ui.exampleView">
 <folder activePageID="org.coocox.component.ui.Help" appearance="2" expanded="2">
 <page content="org.coocox.component.ui.Help" label="Help"/>
@@ -173,163 +176,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/main.cpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/control.hpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/control.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_driver/board/pin.hpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/motor.cpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/motor.hpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/main.cpp"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_driver/board/pin.hpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/position.hpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/position.cpp"/>
 </editors>
-<item historyLabel="motor.hpp" index="3">
-<position info="not_deleted" x="331" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="1331" y="0"/>
 </item>
-<item historyLabel="motor.hpp" index="3">
-<position info="not_deleted" x="1274" y="0"/>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="220" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1772" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1468" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1278" y="0"/>
+<item historyLabel="pin.hpp" index="3">
+<position info="not_deleted" x="14409" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1326" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1322" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1217" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1769" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1217" y="0"/>
-</item>
-<item historyLabel="pin.hpp" index="5">
-<position info="not_deleted" x="10211" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="1578" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1121" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="1578" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="823" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="1578" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1121" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="1578" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1190" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="823" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="1250" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1604" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="1707" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="866" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="1612" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1604" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="2">
+<item historyLabel="motor.cpp" index="4">
 <position info="not_deleted" x="375" y="0"/>
 </item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="1445" y="0"/>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="419" y="0"/>
 </item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1604" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1468" y="0"/>
 </item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="1637" y="0"/>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="375" y="0"/>
 </item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1823" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1468" y="0"/>
 </item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="866" y="0"/>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="375" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="279" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="1222" y="0"/>
 </item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="1926" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="875" y="18"/>
 </item>
-<item historyLabel="motor.hpp" index="3">
-<position info="not_deleted" x="1276" y="0"/>
+<item historyLabel="position.hpp" index="6">
+<position info="not_deleted" x="927" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="279" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="691" y="0"/>
 </item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="866" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="818" y="0"/>
 </item>
-<item historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="312" y="0"/>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="311" y="0"/>
 </item>
-<item historyLabel="motor.hpp" index="3">
-<position info="not_deleted" x="410" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1494" y="14"/>
 </item>
-<item historyLabel="position.cpp" index="6">
-<position info="not_deleted" x="240" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="818" y="0"/>
 </item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="1423" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1494" y="14"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="3467" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="818" y="0"/>
 </item>
-<item historyLabel="motor.hpp" index="3">
-<position info="not_deleted" x="410" y="0"/>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="568" y="0"/>
 </item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="866" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1087" y="0"/>
 </item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="1481" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="995" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="3467" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="1142" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="4418" y="0"/>
+<item historyLabel="control.cpp" index="2">
+<position info="not_deleted" x="1778" y="0"/>
 </item>
-<item historyLabel="motor.cpp" index="2">
-<position info="not_deleted" x="4413" y="0"/>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1489" y="0"/>
 </item>
-<item historyLabel="control.hpp" index="0">
-<position info="not_deleted" x="686" y="0"/>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="708" y="0"/>
 </item>
-<item historyLabel="control.cpp" index="1">
-<position info="not_deleted" x="2303" y="0"/>
+<item historyLabel="position.cpp" index="7">
+<position info="not_deleted" x="667" y="0"/>
 </item>
-<item active="true" historyLabel="main.cpp" index="4">
-<position info="not_deleted" x="312" y="0"/>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="995" y="0"/>
+</item>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="445" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="568" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="758" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="306" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="2">
+<position info="not_deleted" x="1829" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1889" y="0"/>
+</item>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="184" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="306" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="2">
+<position info="not_deleted" x="1928" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1609" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="1343" y="26"/>
+</item>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1819" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="2">
+<position info="not_deleted" x="1515" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1819" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="1305" y="0"/>
+</item>
+<item historyLabel="main.cpp" index="0">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="184" y="0"/>
+</item>
+<item historyLabel="motor.cpp" index="4">
+<position info="not_deleted" x="1787" y="0"/>
+</item>
+<item historyLabel="motor.hpp" index="5">
+<position info="not_deleted" x="184" y="0"/>
+</item>
+<item active="true" historyLabel="control.hpp" index="1">
+<position info="not_deleted" x="1819" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>

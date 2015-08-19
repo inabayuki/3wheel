@@ -21,7 +21,6 @@
 
 int main(void)
 {
-
 	Can0 can;
 	can.setup();
 	Buzzer buzzer;
@@ -37,7 +36,6 @@ int main(void)
 	canEncoder0.setup();
 	canEncoder1.setup();
 	canEncoder2.setup();
-	//positiontion position;
 	Motor motor;
 	Connection control;
 	Testmotor t;
@@ -55,39 +53,35 @@ int main(void)
 				position.selfPosition();
 
 				if(control.spinNumber[control.point]==1){
-					if(fabsf(position.integralx)>=10.0&&control.targetX[control.point]==0){
-						motor.xCoordinateMotor(position.integralx);
-					}
-					if((fabsf(position.integralx)<10.0&&control.targetX[control.point]==0)||control.targetX[control.point]!=0){
-						motor.xCoordinateClear();
-					}
 					motor.motorControl(control.devietionX,control.devietionY);
 					motor.degreeLock(position.degree);
 					motor.last();
 					motor.dutyCleanUp();
 					motor.degSw=0;
 				}
-				/*
-				else if(control.stopNumber[control.point]==0){
-					control.stopMotor();
-				}
-				*/
 				else if(control.spinNumber[control.point]==0){
 					motor.angel(position.degree,position.degree);
 					control.spinControl(position.degree);
 				}
 				if(control.actionNumber[control.point]==1){
+					if(control.armpwm[control.point]==1){
+						control.armTime();
+					}
 					control.arm();
 					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
 				}
+				control.xy(position.integralx,position.integraly);
 				if(control.point<3){
-					control.xy(position.integralx,position.integraly);
+					control.coordinatePoint();
 				}
 				else if(control.point>=3){
 					buzzer.digitalHigh();
 
 				}
 				control.indication(motor.pwmp[0],motor.pwmp[1],motor.pwmp[2],position.degree,position.integralx,position.integraly);
+			}
+			if(control.sw==3){
+				control.test();
 			}
 			if(millis()-control.time>1000){
 				control.switch0();
