@@ -71,10 +71,10 @@ int main(void)
 					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
 				}
 				control.xy(position.integralx,position.integraly);
-				if(control.point<3){
+				if(control.point<10){
 					control.coordinatePoint();
 				}
-				else if(control.point>=3){
+				else if(control.point>=10){
 					buzzer.digitalHigh();
 
 				}
