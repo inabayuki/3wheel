@@ -32,11 +32,8 @@ Connection::Connection(){
 	pote.setupAnalogIn();
 }
 
-void Connection::test(){
-	pwm3.pwmWrite(0);
-	cw3.digitalWrite(0);
-	ccw3.digitalWrite(1);
-	serial.printf("%f\n\r",pote.analogRead());
+void Connection::test(float&degree,float&integralxC,float&integralyC){
+	serial.printf("%.2f,%.2f,%.2f\n\r",degree,integralxC,integralyC);
 }
 void Connection::switch0(){
 	if(sw0.digitalRead()==0&&sw!=1){
@@ -105,7 +102,7 @@ void Connection::xy(float integralxC,float integralyC){
 }
 void Connection::coordinatePoint(){
 	if(distance!=0){
-		if(distance<=7.0&&millis()-timepoint>=1500){
+		if(distance<=3.0&&millis()-timepoint>=1500){
 			point++;
 			timepoint=millis();
 		}
@@ -113,8 +110,8 @@ void Connection::coordinatePoint(){
 	return;
 }
 
-void Connection::indication(float&enc0,float&enc1,float&enc2,float&degree,float&integralxC,float&integralyC){
+void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
 
 	limitC=limFlont.digitalRead();
-	serial.printf("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,point%d,f%d,b%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point,limFlont.digitalRead(),limBack.digitalRead());
+	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,point%d,f%d,b%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point,limFlont.digitalRead(),limBack.digitalRead());
 }

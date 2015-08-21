@@ -18,7 +18,7 @@
 #include "can.hpp"
 #define l 115//enc distance from the center
 #define pGain 1.0/180.0	//p gain
-#define dGain 0.6		//d gain
+#define dGain 0.55		//d gain
 #define	diameter 30
 #define cycle 5
 

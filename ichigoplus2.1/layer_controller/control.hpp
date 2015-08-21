@@ -40,8 +40,8 @@ private:
 
 public:
     int swArm=0;
-    float targetX[10]{   0,   0,-750,-750,-750,   0,   0,-1750,-1750};//x
-    float targetY[10]{1930,1250,1250,   0, 850,1930,1800,  400,    0};//y
+    float targetX[10]{   0,   0,0,0,-750,   0,   0,-1750,-1750};//x
+    float targetY[10]{1950,0,0,0, 850,1930,1800,  400,    0};//y
     int   stopNumber[10]{1,0,1,0,1,1,0,0,1,1};
     int   spinNumber[10]{1,0,1,1,1,1,0,1,1,1};
     int actionNumber[10]{1,0,1,1,1,1,0,1,1,1};
@@ -66,12 +66,12 @@ public:
     void xy(float integralxC,float integralyC);
     void coordinatePoint();
     void switch0();
-    void indication(float&enc0,float&enc1,float&enc2,float&degree,float&integralxC,float&integralyC);
+    void indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC);
     void arm();
     void spinControl(float degreeC);
     void stopMotor();
     void armTime();
-    void test();
+    void test(float&degree,float&integralxC,float&integralyC);
 
     Serial0 serial;
 

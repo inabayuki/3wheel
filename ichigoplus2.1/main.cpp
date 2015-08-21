@@ -71,17 +71,21 @@ int main(void)
 					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
 				}
 				control.xy(position.integralx,position.integraly);
-				if(control.point<10){
+				if(control.point<3){
 					control.coordinatePoint();
 				}
-				else if(control.point>=10){
+				else if(control.point>=3){
 					buzzer.digitalHigh();
 
 				}
-				control.indication(motor.pwmp[0],motor.pwmp[1],motor.pwmp[2],position.degree,position.integralx,position.integraly);
+				control.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly);
 			}
 			if(control.sw==3){
-				control.test();
+				position.radian();
+				position.selfPosition();
+				motor.degreeLock(position.degree);
+				motor.testmotor();
+				control.test(position.degree,position.integralx,position.integraly);
 			}
 			if(millis()-control.time>1000){
 				control.switch0();

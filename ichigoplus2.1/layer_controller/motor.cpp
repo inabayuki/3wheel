@@ -43,6 +43,9 @@ void Motor::motorControl(float devietionXc,float devietionYc){
 	for(int i=0;i<=2;i++){
 		pwmp[i]=pwmp[i]/fabsf(tmp);
 	}
+	for(int i=0;i<=2;i++){
+		pwmp[i]=pwmp[i]*0.90;
+	}
 	return;
 }
 
@@ -64,6 +67,37 @@ void Motor::xCoordinateClear(){
 	for(int i=0;i<=2;i++){
 		pwmCood[i]=0;
 	}
+}
+void Motor::testmotor(){
+	cw0.digitalWrite(1);
+	ccw0.digitalWrite(0);
+	cw1.digitalWrite(1);
+	ccw1.digitalWrite(0);
+	cw2.digitalWrite(1);
+	ccw2.digitalWrite(0);
+	for(int i=0;i<=2;i++){
+		if(pwmLock[i]<0){
+			if(i==0){
+				cw0.digitalWrite(0);
+				ccw0.digitalWrite(1);
+				pwmLock[i]=pwmLock[i]*-1;
+			}
+			if(i==1){
+				cw1.digitalWrite(0);
+				ccw1.digitalWrite(1);
+				pwmLock[i]=pwmLock[i]*-1;
+			}
+			if(i==2){
+				cw2.digitalWrite(0);
+				ccw2.digitalWrite(1);
+				pwmLock[i]=pwmLock[i]*-1;
+			}
+		}
+	}
+
+	pwm0.pwmWrite(1.0-pwmLock[0]);
+	pwm1.pwmWrite(1.0-pwmLock[1]);
+	pwm2.pwmWrite(1.0-pwmLock[2]);
 }
 void Motor::xCoordinateMotor(float xC){
 	rightAngel=0;
@@ -126,7 +160,7 @@ void Motor::angel(float degree1,float degree2){
 	pwm2.pwmWrite(1.0-pwmp[2]);
 	degreeOld=degree1;
 	degreeDivietion=degreeAppoint-degree2;
-	if(degreeAppoint!=90&&millis()-timedegree>=100){
+	if(degreeAppoint!=90&&millis()-timedegree>=150){
 		degreeAppoint+=5;
 		timedegree=millis();
 	}
@@ -141,7 +175,7 @@ void Motor::dutyCleanUp(){
 void  Motor::last(){
 
 	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]-pwmLock[i]+pwmCood[i];
+		pwmp[i]=pwmp[i]-pwmLock[i];
 	}
     tmp1=fabsf(pwmp[0]);
 

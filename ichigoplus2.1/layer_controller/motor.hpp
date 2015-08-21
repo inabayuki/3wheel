@@ -18,7 +18,7 @@
 #define pGaina 1.0/M_PI
 #define dGaina 0.4
 #define pGain 1.0/180.0	//p gain
-#define dGain 0.4		//d gain
+#define dGain 0.48		//d gain
 
 class Motor{
 private:
@@ -59,6 +59,7 @@ public:
     void degreeLock(float degree1);
     void dutyCleanUp();
     void last();
+    void testmotor();
     void angel(float degree1,float degree2);
     void xCoordinateClear();
 
