@@ -15,10 +15,10 @@
 #define MOTOR_HPP
 
 //circuit
-#define pGaina 1.0/M_PI
-#define dGaina 0.4
+#define pGaina 1.5
+#define dGaina 2.3
 #define pGain 1.0/180.0	//p gain
-#define dGain 0.48		//d gain
+#define dGain 0.43		//d gain
 
 class Motor{
 private:
@@ -34,7 +34,7 @@ private:
     float dControl=0;
     float dControlA=0;
     float radOld=0;
-    float *rad=0;
+    float *rad;
     float *xC;
     float rightAngel=M_PI;
     float degreeDivietion=0;
@@ -56,7 +56,7 @@ public:
     void armMotor(int armpwm,int armcw,int armccw);
     void motorControl(float devietionXc,float devietionYc);
     void xCoordinateMotor(float xC);
-    void degreeLock(float degree1);
+    void degreeLock(float rad);
     void dutyCleanUp();
     void last();
     void testmotor();
@@ -80,6 +80,7 @@ public:
 
 	A3 limFlont;
 	A1 limBack;
+
 
 };
 #endif//MOTOR_HPP

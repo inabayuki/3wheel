@@ -30,22 +30,25 @@ Connection::Connection(){
 	limBack.setupDigitalIn();
 	buzzer.setupDigitalOut();
 	pote.setupAnalogIn();
+
 }
 
 void Connection::test(float&degree,float&integralxC,float&integralyC){
 	serial.printf("%.2f,%.2f,%.2f\n\r",degree,integralxC,integralyC);
 }
+
 void Connection::switch0(){
 	if(sw0.digitalRead()==0&&sw!=1){
 		sw=1;
 		time=millis();
 		buzzer.digitalHigh();
 	}
-	else if(sw1.digitalRead()==0&&sw!=2){
-		sw=2;
+	else if(sw1.digitalRead()==0){
+		dispose++;
 		time=millis();
-		buzzer.digitalHigh();
+		sw=0;
 	}
+
 	else if(sw2.digitalRead()==0&&sw!=0){
 		sw=0;
 		pwm3.pwmWrite(1);
@@ -56,7 +59,9 @@ void Connection::switch0(){
 		buzzer.digitalHigh();
 	}
 	else if(sw3.digitalRead()==0&&sw!=3){
-		sw=3;
+		sw=0;
+		time=millis();
+		member++;
 	}
 	if(millis()-time>=500){
 		buzzer.digitalLow();
@@ -71,8 +76,8 @@ void Connection::stopMotor(){
 
 void Connection::spinControl(float degreeC){
 	if(fabsf(90-degreeC)<=1.0){
-		//spinNumber[point]=1;
-		actionNumber[point]=1;
+		//spinNumber[member][dispose][point]=1;
+		actionNumber[member][dispose][point]=1;
 
 	}
 }
@@ -85,24 +90,32 @@ void Connection::armTime(){
 
 void Connection::arm(){
 	if(millis()-timeArm>=1500){
-		armpwm[point]=0;
-		spinNumber[point]=1;
+		armpwm[member][dispose][point]=0;
+		spinNumber[member][dispose][point]=1;
 		swArm=0;
 	}
-	armpwmC=armpwm[point];
-	armcwC=armcw[point];
-	armccwC=armccw[point];
+	if(armpwm[member][dispose][point]<0){
+		armcw[member][dispose][point]=0;
+		armccw[member][dispose][point]=1;
+	}
+	if(armpwm[member][dispose][point]>0){
+		armcw[member][dispose][point]=1;
+		armccw[member][dispose][point]=0;
+	}
+	armpwmC=armpwm[member][dispose][point];
+	armcwC=armcw[member][dispose][point];
+	armccwC=armccw[member][dispose][point];
 }
 
 void Connection::xy(float integralxC,float integralyC){
-	devietionX=targetX[point]-integralxC;
-	devietionY=targetY[point]-integralyC;
+	devietionX=targetX[member][dispose][point]-integralxC;
+	devietionY=targetY[member][dispose][point]-integralyC;
 	distance=hypot(devietionX,devietionY);
 	return;
 }
 void Connection::coordinatePoint(){
 	if(distance!=0){
-		if(distance<=3.0&&millis()-timepoint>=1500){
+		if(distance<=5.0&&millis()-timepoint>=1500){
 			point++;
 			timepoint=millis();
 		}

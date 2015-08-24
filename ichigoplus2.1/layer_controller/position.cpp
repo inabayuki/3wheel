@@ -4,19 +4,35 @@ void Position::radian(){
 	encf[0]=canEncC0->count();//0->1
 	encf[1]=canEncC1->count();
 	encf[2]=canEncC2->count();
+/*
+	for(int i=0;i<=2;i++){
+		if(encf[i]-oldEnc[i]>=50000){
+			encDivietion[i]=encf[i]-oldEnc[i];
+		}
+	}
+	*/
+
+	for(int i=0;i<=2;i++){
+		oldEnc[i]=encf[i];
+	}
 
 	for(int i=0;i<=2;i++){
 		oldEncDistance[i]=encDistance[i];
 	}
-	encDistance[0]=30.0*M_PI*encf[0]/1000.0;
-	encDistance[2]=30.0*M_PI*encf[2]/200.0;
-	encDistance[1]=30.0*M_PI*encf[1]/200.0;
+	if(sw3.digitalRead()==0){
+		for(int i=0;i<=2;i++){
+			encDivietion[i]=encf[i];
+		}
+	}
+	encDistance[0]=diameter*M_PI*(encf[0]-encDivietion[0])/1000.0;
+	encDistance[2]=diameter*M_PI*(encf[2]-encDivietion[2])/200.0;
+	encDistance[1]=diameter*M_PI*(encf[1]-encDivietion[1])/200.0;
 
 	for(int i=0;i<=2;i++){
 		newEncDistance[i]=encDistance[i]-oldEncDistance[i];
 	}
 
-	rad=(encDistance[0]+encDistance[1]+encDistance[2])/(l*3);
+	rad=(encDistance[0]+encDistance[1]+encDistance[2])/(l*3.0);
 	degree=rad/M_PI*180;
 
 	divide=degree/180;

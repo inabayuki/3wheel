@@ -24,10 +24,17 @@ int main(void)
 	Can0 can;
 	can.setup();
 	Buzzer buzzer;
+	Led0 led0;
+	Led1 led1;
+	Led2 led2;
+	Led3 led3;
 
 	A1 limBack;
 	A3 limFlont;
-
+	led0.setupDigitalOut();
+	led1.setupDigitalOut();
+	led2.setupDigitalOut();
+	led3.setupDigitalOut();
 	buzzer.setupDigitalOut();
 	CanEncoder canEncoder0(can,0,5);
 	CanEncoder canEncoder1(can,1,5);
@@ -40,53 +47,68 @@ int main(void)
 	Connection control;
 	Testmotor t;
 
+	int timeLed=0;
+
 	Position position(canEncoder0,canEncoder1,canEncoder2);
 	buzzer.digitalHigh();
 	while(1){
+
 		if(millis()-control.period>=cycle){
+			if(control.dispose==0){
+				led0.digitalWrite(1);
+			}
+			else if(control.dispose==1){
+				led1.digitalWrite(1);
+			}
+			else if(control.dispose==2){
+				led2.digitalWrite(1);
+			}
+			if(control.member==1){
+				led3.digitalWrite(1);
+			}
+			else if(control.member==2){
+				if(millis()-timeLed>=500){
+					led3.digitalToggle();
+					timeLed=millis();
+				}
+			}
+
 			control.period=millis();
-			if(control.sw==0){
+			if(control.sw==0&&millis()-control.time>1000){
 				control.switch0();
 			}
 			if(control.sw==1){
 				position.radian();
 				position.selfPosition();
-
-				if(control.spinNumber[control.point]==1){
+				control.xy(position.integralx,position.integraly);
+				if(control.spinNumber[control.member][control.dispose][control.point]==1){
 					motor.motorControl(control.devietionX,control.devietionY);
-					motor.degreeLock(position.degree);
+					motor.degreeLock(position.rad);
+				//	motor.testmotor();
 					motor.last();
 					motor.dutyCleanUp();
 					motor.degSw=0;
+
 				}
-				else if(control.spinNumber[control.point]==0){
+				else if(control.spinNumber[control.member][control.dispose][control.point]==0){
 					motor.angel(position.degree,position.degree);
 					control.spinControl(position.degree);
 				}
-				if(control.actionNumber[control.point]==1){
-					if(control.armpwm[control.point]==1){
+				if(control.actionNumber[control.member][control.dispose][control.point]==1){
+					if(control.armpwm[control.member][control.dispose][control.point]==1){
 						control.armTime();
 					}
 					control.arm();
 					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
 				}
-				control.xy(position.integralx,position.integraly);
-				if(control.point<3){
+				if(control.point<4){
 					control.coordinatePoint();
 				}
-				else if(control.point>=3){
-					buzzer.digitalHigh();
 
-				}
+
 				control.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly);
 			}
-			if(control.sw==3){
-				position.radian();
-				position.selfPosition();
-				motor.degreeLock(position.degree);
-				motor.testmotor();
-				control.test(position.degree,position.integralx,position.integraly);
-			}
+
 			if(millis()-control.time>1000){
 				control.switch0();
 			}

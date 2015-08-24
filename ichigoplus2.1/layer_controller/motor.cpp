@@ -29,9 +29,9 @@ void Motor::armMotor(int armpwm,int armcw,int armccw){
 void Motor::motorControl(float devietionXc,float devietionYc){
 	deg=atan2f(devietionYc,devietionXc);
 	distance=hypot(devietionXc,devietionYc);
-	pwmp[0]=sin(deg-M_PI/6.0);
-	pwmp[2]=cos(deg);
-	pwmp[1]=-1*sin(M_PI/6.0+deg);
+	pwmp[0]=sinf(deg-M_PI/6.0);
+	pwmp[2]=cosf(deg);
+	pwmp[1]=-1*sinf(M_PI/6.0+deg);
 
 	tmp=fabsf(pwmp[0]);
 
@@ -44,25 +44,32 @@ void Motor::motorControl(float devietionXc,float devietionYc){
 		pwmp[i]=pwmp[i]/fabsf(tmp);
 	}
 	for(int i=0;i<=2;i++){
-		pwmp[i]=pwmp[i]*0.90;
+		pwmp[i]=pwmp[i];
 	}
 	return;
 }
 
+void Motor::degreeLock(float rad){
+	dControl+=(rad-radOld)*dGaina;
+	radOld=rad;
+	for(int i=0;i<=2;i++){
+		pwmLock[i]=rad*pGaina+dControl;
+	}
+	return;
+}
+/*
 void Motor::degreeLock(float degree1){
 	dControl+=(degree1-degreeOld)*dGain;
+	degreeOld=degree1;
 	for(int i=0;i<=2;i++){
 		pwmLock[i]=degree1*pGain+dControl;
 	}
-
 	for(int i=0;i<=2;i++){
 		pwmLock[i]=pwmLock[i];
 	}
-
-	degreeOld=degree1;
 	return;
 }
-
+*/
 void Motor::xCoordinateClear(){
 	for(int i=0;i<=2;i++){
 		pwmCood[i]=0;
@@ -95,9 +102,9 @@ void Motor::testmotor(){
 		}
 	}
 
-	pwm0.pwmWrite(1.0-pwmLock[0]);
-	pwm1.pwmWrite(1.0-pwmLock[1]);
-	pwm2.pwmWrite(1.0-pwmLock[2]);
+	pwm0.pwmWrite(1-pwmLock[0]);
+	pwm1.pwmWrite(1-pwmLock[1]);
+	pwm2.pwmWrite(1-pwmLock[2]);
 }
 void Motor::xCoordinateMotor(float xC){
 	rightAngel=0;
@@ -126,7 +133,7 @@ void Motor::xCoordinateMotor(float xC){
 void Motor::angel(float degree1,float degree2){
 
 	degree1=degree1-degreeAppoint;
-	dControlA+=(degree1-degreeOld)*dGaina;
+	dControlA+=(degree1-degreeOld)*dGain;
 	for(int i=0;i<=2;i++){
 		pwmp[i]=degree1*pGain+dControlA;
 	}
@@ -160,7 +167,7 @@ void Motor::angel(float degree1,float degree2){
 	pwm2.pwmWrite(1.0-pwmp[2]);
 	degreeOld=degree1;
 	degreeDivietion=degreeAppoint-degree2;
-	if(degreeAppoint!=90&&millis()-timedegree>=150){
+	if(degreeAppoint!=90&&millis()-timedegree>=100){
 		degreeAppoint+=5;
 		timedegree=millis();
 	}
@@ -216,9 +223,9 @@ void  Motor::last(){
 
 
 
-	if(distance<=10){
+	if(distance<=5){
 		for(int i=0;i<=2;i++){
-			pwmp[i]=pwmp[i]*distance/10;
+			pwmp[i]=pwmp[i]*distance/5.0;
 		}
 	}
 
