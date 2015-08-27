@@ -18,6 +18,7 @@
 
 //circuit
 #include "circuit/can_encoder.hpp"
+#include "circuit/r1350n.hpp"
 
 int main(void)
 {
@@ -31,6 +32,7 @@ int main(void)
 
 	A1 limBack;
 	A3 limFlont;
+	Serial1 serial1;
 	led0.setupDigitalOut();
 	led1.setupDigitalOut();
 	led2.setupDigitalOut();
@@ -43,42 +45,43 @@ int main(void)
 	canEncoder0.setup();
 	canEncoder1.setup();
 	canEncoder2.setup();
+
 	Motor motor;
 	Connection control;
 	Testmotor t;
-
+	R1350n r1350n(serial1);
+	r1350n.setup();
 	int timeLed=0;
 
 	Position position(canEncoder0,canEncoder1,canEncoder2);
 	buzzer.digitalHigh();
 	while(1){
 
+		if(control.dispose==0){
+			led0.digitalWrite(1);
+		}
+		else if(control.dispose==1){
+			led1.digitalWrite(1);
+		}
+		else if(control.dispose==2){
+			led2.digitalWrite(1);
+		}
+		if(control.member==1){
+			led3.digitalWrite(1);
+		}
+		else if(control.member==2){
+			if(millis()-timeLed>=500){
+				led3.digitalToggle();
+				timeLed=millis();
+			}
+		}
 		if(millis()-control.period>=cycle){
-			if(control.dispose==0){
-				led0.digitalWrite(1);
-			}
-			else if(control.dispose==1){
-				led1.digitalWrite(1);
-			}
-			else if(control.dispose==2){
-				led2.digitalWrite(1);
-			}
-			if(control.member==1){
-				led3.digitalWrite(1);
-			}
-			else if(control.member==2){
-				if(millis()-timeLed>=500){
-					led3.digitalToggle();
-					timeLed=millis();
-				}
-			}
-
 			control.period=millis();
 			if(control.sw==0&&millis()-control.time>1000){
 				control.switch0();
 			}
 			if(control.sw==1){
-				position.radian();
+				position.radian(r1350n.angle());
 				position.selfPosition();
 				control.xy(position.integralx,position.integraly);
 				if(control.spinNumber[control.member][control.dispose][control.point]==1){
@@ -87,26 +90,27 @@ int main(void)
 				//	motor.testmotor();
 					motor.last();
 					motor.dutyCleanUp();
-					motor.degSw=0;
-
+					if(control.point<5){
+						control.coordinatePoint(motor.distance);
+					}
 				}
 				else if(control.spinNumber[control.member][control.dispose][control.point]==0){
-					motor.angel(position.degree,position.degree);
+					motor.angle(position.degree,position.degree);
 					control.spinControl(position.degree);
 				}
 				if(control.actionNumber[control.member][control.dispose][control.point]==1){
-					if(control.armpwm[control.member][control.dispose][control.point]==1){
+					if(control.armpwm[control.member][control.dispose][control.point]!=0){
 						control.armTime();
 					}
 					control.arm();
 					motor.armMotor(control.armpwmC,control.armcwC,control.armccwC);
-				}
-				if(control.point<4){
-					control.coordinatePoint();
+
 				}
 
 
-				control.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly);
+
+
+				control.indication(position.encf[0],position.encf[1],position.encf[2],position.degree,position.integralx,position.integraly,r1350n.angle());
 			}
 
 			if(millis()-control.time>1000){

@@ -39,7 +39,9 @@ private:
 	float firstY=0;
 	float secondY=0;
 	float thirdY=0;
+	float radianC;
 	int divide=0;
+	int timeAngle;
 
 public:
 	Serial0 serial;
@@ -71,7 +73,7 @@ public:
 
 
     }
-    void radian();
+    void radian(float radianC);
     void selfPosition();
 };
 #endif//POSITION_HPP

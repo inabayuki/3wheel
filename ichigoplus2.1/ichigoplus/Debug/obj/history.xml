@@ -121,8 +121,8 @@
       <target file="stm32f4xx_adc.o" lastModified="14eddfc0a2d">
          <source file="..\..\..\cmsis_lib\source\stm32f4xx_adc.c" lastModified="14ecf405349"/>
       </target>
-      <target file="position.o" lastModified="14f5e160581">
-         <source file="..\..\..\layer_controller\position.cpp" lastModified="14f5e15ff57"/>
+      <target file="position.o" lastModified="14f6909867d">
+         <source file="..\..\..\layer_controller\position.cpp" lastModified="14f6908de54"/>
       </target>
       <target file="stm32f4xx_flash.o" lastModified="14eddfc1019">
          <source file="..\..\..\cmsis_lib\source\stm32f4xx_flash.c" lastModified="14ecf405405"/>
@@ -136,14 +136,17 @@
       <target file="startup_stm32f4xx.o" lastModified="14eddfc0338">
          <source file="..\..\..\cmsis_boot\startup\startup_stm32f4xx.c" lastModified="14ecf405165"/>
       </target>
+      <target file="r1350n.o" lastModified="14f67be3648">
+         <source file="..\..\..\layer_driver\circuit\r1350n.cpp" lastModified="14f67b6b7c0"/>
+      </target>
       <target file="digital.o" lastModified="14eddfc16a1">
          <source file="..\..\..\layer_driver\base\digital.cpp" lastModified="14ecf405cfe"/>
       </target>
       <target file="stm32f4xx_dma.o" lastModified="14eddfc11af">
          <source file="..\..\..\cmsis_lib\source\stm32f4xx_dma.c" lastModified="14ecf4053c6"/>
       </target>
-      <target file="control.o" lastModified="14f5fe01f36">
-         <source file="..\..\..\layer_controller\control.cpp" lastModified="14f5fe0187f"/>
+      <target file="control.o" lastModified="14f69f5e12e">
+         <source file="..\..\..\layer_controller\control.cpp" lastModified="14f69f5dd84"/>
       </target>
       <target file="config_i2c.o" lastModified="14eddfc18e3">
          <source file="..\..\..\layer_driver\board\stm32f4_config\config_i2c.c" lastModified="14ecf40600b"/>
@@ -178,8 +181,8 @@
       <target file="encoder.o" lastModified="14eddfc0bd3">
          <source file="..\..\..\layer_driver\base\encoder.cpp" lastModified="14ecf405d1d"/>
       </target>
-      <target file="main.o" lastModified="14f5fe5428d">
-         <source file="..\..\..\main.cpp" lastModified="14f5fe539a4"/>
+      <target file="main.o" lastModified="14f6cfa96f0">
+         <source file="..\..\..\main.cpp" lastModified="14f6908de15"/>
       </target>
       <target file="system_stm32f4xx.o" lastModified="14eddfc10c5">
          <source file="..\..\..\cmsis_boot\system_stm32f4xx.c" lastModified="14ecf405136"/>
@@ -199,11 +202,11 @@
       <target file="config_systick.o" lastModified="14eddfc0e64">
          <source file="..\..\..\layer_driver\board\stm32f4_config\config_systick.c" lastModified="14ecf4060c7"/>
       </target>
+      <target file="motor.o" lastModified="14f6cfa98d5">
+         <source file="..\..\..\layer_controller\motor.cpp" lastModified="14f69d53a4b"/>
+      </target>
       <target file="utilplus.o" lastModified="14eddfc01b1">
          <source file="..\..\..\layer_driver\base\utilplus.cpp" lastModified="14ecf405ea4"/>
-      </target>
-      <target file="motor.o" lastModified="14f5fe2e6be">
-         <source file="..\..\..\layer_controller\motor.cpp" lastModified="14f5fe2dbc1"/>
       </target>
    </processor>
 </history>

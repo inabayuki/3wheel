@@ -16,7 +16,7 @@
 
 //circuit
 #define pGaina 1.5
-#define dGaina 2.3
+#define dGaina 2.35
 #define pGain 1.0/180.0	//p gain
 #define dGain 0.43		//d gain
 
@@ -26,24 +26,24 @@ private:
     float pwmLock[3]={0,0,0};
     float pwmCood[3]{0,0,0};
     float degreeOld=0;
-    float *devietionXc=0;
-    float *devietionYc=0;
+    float devietionXc=0;
+    float devietionYc=0;
     float tmp=0;
     float tmp1=0;
-    float *degree1=0;
+    float degree1=0;
     float dControl=0;
     float dControlA=0;
     float radOld=0;
-    float *rad;
-    float *xC;
-    float rightAngel=M_PI;
+    float rad;
+    float xC;
+    float rightAngle=M_PI;
     float degreeDivietion=0;
-    float *degree2;
+    float degree2;
 
 
-    int *armpwm=0;
-    int *armcw=0;
-    int *armccw=0;
+    int armpwm=0;
+    int armcw=0;
+    int armccw=0;
     int timedegree=0;
 
 public:
@@ -60,7 +60,7 @@ public:
     void dutyCleanUp();
     void last();
     void testmotor();
-    void angel(float degree1,float degree2);
+    void angle(float degree1,float degree2);
     void xCoordinateClear();
 
     CCW0 ccw0;

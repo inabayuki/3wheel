@@ -33,7 +33,7 @@ Connection::Connection(){
 
 }
 
-void Connection::test(float&degree,float&integralxC,float&integralyC){
+void Connection::test(float degree,float integralxC,float integralyC){
 	serial.printf("%.2f,%.2f,%.2f\n\r",degree,integralxC,integralyC);
 }
 
@@ -73,9 +73,13 @@ void Connection::stopMotor(){
 		pwm1.pwmWrite(1);
 		pwm2.pwmWrite(1);
 }
-
+void Connection::spinControl2(float degreeC){
+	if(fabsf(degreeC)<=1.0){
+		spinNumber[member][dispose][point]=1;
+	}
+}
 void Connection::spinControl(float degreeC){
-	if(fabsf(90-degreeC)<=1.0){
+	if(fabsf(75-degreeC)<=1.0){
 		//spinNumber[member][dispose][point]=1;
 		actionNumber[member][dispose][point]=1;
 
@@ -93,29 +97,37 @@ void Connection::arm(){
 		armpwm[member][dispose][point]=0;
 		spinNumber[member][dispose][point]=1;
 		swArm=0;
+		swcw=0;
 	}
-	if(armpwm[member][dispose][point]<0){
-		armcw[member][dispose][point]=0;
-		armccw[member][dispose][point]=1;
+	/*
+	if(swcw==0){
+		if(armpwm[member][dispose][point]<0){
+			armpwm[member][dispose][point]=1;
+			armcw[member][dispose][point]=1;
+			armccw[member][dispose][point]=0;
+			swcw=1;
+		}
+		if(armpwm[member][dispose][point]>0){
+			armcw[member][dispose][point]=1;
+			armccw[member][dispose][point]=0;
+			swcw=1;
+		}
 	}
-	if(armpwm[member][dispose][point]>0){
-		armcw[member][dispose][point]=1;
-		armccw[member][dispose][point]=0;
-	}
+	*/
 	armpwmC=armpwm[member][dispose][point];
 	armcwC=armcw[member][dispose][point];
 	armccwC=armccw[member][dispose][point];
+	return;
 }
 
 void Connection::xy(float integralxC,float integralyC){
 	devietionX=targetX[member][dispose][point]-integralxC;
 	devietionY=targetY[member][dispose][point]-integralyC;
-	distance=hypot(devietionX,devietionY);
-	return;
+		return;
 }
-void Connection::coordinatePoint(){
+void Connection::coordinatePoint(float distance){
 	if(distance!=0){
-		if(distance<=5.0&&millis()-timepoint>=1500){
+		if(distance<=5.0&&millis()-timepoint>=2000){
 			point++;
 			timepoint=millis();
 		}
@@ -123,8 +135,8 @@ void Connection::coordinatePoint(){
 	return;
 }
 
-void Connection::indication(int&enc0,int&enc1,int&enc2,float&degree,float&integralxC,float&integralyC){
+void Connection::indication(int enc0,int enc1,int enc2,float degree,float integralxC,float integralyC,float radian){
 
 	limitC=limFlont.digitalRead();
-	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,point%d,f%d,b%d\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point,limFlont.digitalRead(),limBack.digitalRead());
+	serial.printf("%d,%d,%d,%.2f,%.2f,%.2f,point%d,%.2f\n\r",enc0,enc1,enc2,degree,integralxC,integralyC,point,radian*180/M_PI);
 }
