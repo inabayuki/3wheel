@@ -29,11 +29,11 @@
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="main.cpp" partName="main.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" title="main.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.cpp" partName="main.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" title="main.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/main.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/main.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1848" selectionTopPixel="1604"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1193" selectionTopPixel="1839"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="motor.hpp" partName="motor.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" title="motor.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="motor.hpp" partName="motor.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" title="motor.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/motor.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/motor.hpp"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="288" selectionTopPixel="163"/>
 </editor>
@@ -43,19 +43,19 @@
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="control.hpp" partName="control.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" title="control.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/control.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3991" selectionTopPixel="3359"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3984" selectionTopPixel="3379"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="control.cpp" partName="control.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.cpp" title="control.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/control.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/control.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2559" selectionTopPixel="2219"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1062" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="position.hpp" partName="position.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.hpp" title="position.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_controller/position.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_controller/position.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="116" selectionTopPixel="1"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="127" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="pin.hpp" partName="pin.hpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/board/pin.hpp" title="pin.hpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/board/pin.hpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_driver/board/pin.hpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12168" selectionTopPixel="13349"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1847" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="r1350n.cpp" partName="r1350n.cpp" path="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/circuit/r1350n.cpp" title="r1350n.cpp" tooltip="C:/Users/yuki/Documents/3wheel/ichigoplus2.1/layer_driver/circuit/r1350n.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ichigoplus/layer_driver/circuit/r1350n.cpp"/>
@@ -192,49 +192,14 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/main.cpp"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/cmsis/core_cm4.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/position.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/position.hpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/control.hpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/control.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/main.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_driver/board/pin.hpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/layer_controller/control.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/ichigoplus/main.cpp"/>
 </editors>
-<item historyLabel="control.hpp" index="1">
-<position info="not_deleted" x="1748" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="0">
-<position info="not_deleted" x="2234" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="1">
-<position info="not_deleted" x="1657" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="0">
-<position info="not_deleted" x="1978" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="1">
-<position info="not_deleted" x="1742" y="0"/>
-</item>
-<item historyLabel="main.cpp" index="5">
-<position info="not_deleted" x="2301" y="0"/>
-</item>
-<item historyLabel="motor.hpp" index="4">
-<position info="not_deleted" x="501" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="3">
-<position info="not_deleted" x="578" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="0">
-<position info="not_deleted" x="1978" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="1">
-<position info="not_deleted" x="1742" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="0">
-<position info="not_deleted" x="1813" y="0"/>
-</item>
-<item historyLabel="control.hpp" index="1">
-<position info="not_deleted" x="2206" y="0"/>
-</item>
-<item historyLabel="control.cpp" index="0">
-<position info="not_deleted" x="1909" y="0"/>
-</item>
-<item historyLabel="motor.cpp" index="3">
-<position info="not_deleted" x="271" y="0"/>
-</item>
 <item historyLabel="position.hpp" index="2">
 <position info="not_deleted" x="1036" y="0"/>
 </item>
@@ -340,8 +305,50 @@
 <item historyLabel="control.hpp" index="1">
 <position info="not_deleted" x="3991" y="0"/>
 </item>
-<item active="true" historyLabel="motor.hpp" index="4">
+<item historyLabel="motor.hpp" index="4">
 <position info="not_deleted" x="269" y="0"/>
+</item>
+<item historyLabel="position.hpp" index="8">
+<position info="not_deleted" x="116" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="9">
+<position info="not_deleted" x="3998" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="10">
+<position info="not_deleted" x="2559" y="0"/>
+</item>
+<item historyLabel="main.cpp" index="11">
+<position info="not_deleted" x="2715" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="9">
+<position info="not_deleted" x="1556" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="10">
+<position info="not_deleted" x="2244" y="0"/>
+</item>
+<item historyLabel="main.cpp" index="11">
+<position info="not_deleted" x="1092" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="9">
+<position info="not_deleted" x="1556" y="0"/>
+</item>
+<item historyLabel="pin.hpp" index="12">
+<position info="not_deleted" x="1726" y="0"/>
+</item>
+<item historyLabel="control.hpp" index="9">
+<position info="not_deleted" x="831" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="13">
+<position info="not_deleted" x="2616" y="0"/>
+</item>
+<item historyLabel="pin.hpp" index="12">
+<position info="not_deleted" x="1847" y="0"/>
+</item>
+<item historyLabel="control.cpp" index="13">
+<position info="not_deleted" x="2616" y="0"/>
+</item>
+<item active="true" historyLabel="main.cpp" index="14">
+<position info="not_deleted" x="1092" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
